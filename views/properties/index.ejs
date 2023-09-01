@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Properties</title>
+</head>
+<body>
+    <h1>All Properties</h1>
+    <a href="/properties/new">new property</a>
+    <ul>
+        <% for(let property of allProperties) { %>
+            <li>
+                <a href="/properties/<%=property._id%>"><%= property.address %></a>
+            </li>
+        <% } %>
+    </ul>
+</body>
+</html>

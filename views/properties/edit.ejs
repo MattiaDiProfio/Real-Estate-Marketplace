@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+<body>
+    <a href="/properties/<%=property._id%>">back to <%=property.address%></a>
+    <form action="/properties/<%=property._id%>/edit?_method=PUT" method="POST">
+        <label for="address">Address : </label>
+        <input type="text" name="property[address]" id="address" value="<%=property.address%>">
+        <br>
+        <label for="numberRooms">Rooms : </label>
+        <input type="number" name="property[numberRooms]" id="numberRooms" value="<%=property.numberRooms%>">
+        <br>
+        <label for="rent">Rent : </label>
+        <input type="number" name="property[monthlyRent]" id="rent" value="<%=property.monthlyRent%>">
+        <br>
+        <label for="description">Description : </label>
+        <textarea name="property[description]" id="description" cols="30" rows="5"><%=property.description%></textarea>
+        <button type="submit">edit</button>
+    </form>
+</body>
+</html>

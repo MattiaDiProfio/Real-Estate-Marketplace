@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= property.address %></title>
+</head>
+<body>
+    <h1><%= property.address %></h1>
+    <p><%= property.description %><p>
+    <p><%= property.monthlyRent %><p>
+    <p><%= property.numberRooms %><p>
+    <a href="/properties">all properties</a>
+    <a href="/properties/<%=property._id%>/edit">edit</a>
+    <form action="/properties/<%=property._id%>?_method=DELETE" method="POST">
+        <button>delete</button>
+    </form>
+</body>
+</html>

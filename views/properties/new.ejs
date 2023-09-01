@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New</title>
+</head>
+<body>
+    <h1>New property</h1>
+    <a href="/properties">all properties</a>
+    <form action="/properties" method="POST">
+        <label for="address">Address : </label>
+        <input type="text" name="property[address]" id="address">
+        <br>
+        <label for="numberRooms">Rooms : </label>
+        <input type="number" name="property[numberRooms]" id="numberRooms">
+        <br>
+        <label for="rent">Rent : </label>
+        <input type="number" name="property[monthlyRent]" id="rent">
+        <br>
+        <label for="description">Description : </label>
+        <textarea name="property[description]" id="description" cols="30" rows="5"></textarea>
+        <button type="submit">submit</button>
+    </form> 
+</body>
+</html>
