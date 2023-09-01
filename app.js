@@ -15,6 +15,6 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', async (request, response) => {
     response.render('home')
-})
+});
 
 app.listen(3000, () => console.log('server live on port 3000'));
