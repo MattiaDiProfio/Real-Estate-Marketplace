@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New</title>
-</head>
-<body>
+<% layout('./layouts/boilerplate') %>
     <h1>New property</h1>
     <a href="/properties">all properties</a>
     <form action="/properties" method="POST">
@@ -22,5 +15,3 @@
         <textarea name="property[description]" id="description" cols="30" rows="5"></textarea>
         <button type="submit">submit</button>
     </form> 
-</body>
-</html>

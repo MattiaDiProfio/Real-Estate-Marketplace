@@ -2,9 +2,9 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const engine = require('ejs-mate');
 
 const Property = require('./models/property');
-const property = require('./models/property');
 
 //set up connection to mongoDB
 mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true });
@@ -15,6 +15,7 @@ db.once('open', () => console.log('database connected!'));
 const app = express();
 
 app.set('view engine', 'ejs');
+app.engine('ejs', engine)
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method'));
@@ -34,6 +35,13 @@ app.get('/properties', async (req, res) => {
 app.get('/properties/new', (req, res) => {
     res.render('properties/new');
 })
+
+//serve form to allow user to perform a personal search of listings
+app.get('/properties/search', (req, res) => res.render('properties/search'));
+
+// serve forms to allow for user login and signup
+app.get('/login', (req, res) => res.render('users/login'));
+app.get('/signup', (req, res) => res.render('users/signup'))
 
 // render a more detailed view of a single property
 app.get('/properties/:id', async(req, res) => {

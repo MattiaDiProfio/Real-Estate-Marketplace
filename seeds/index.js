@@ -41,6 +41,7 @@ const seedDatabase = async() => {
             address,
             description : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec diam ac nunc tincidunt fermentum. Integer bibendum velit at felis posuere, a laoreet velit lacinia. Sed fringilla sapien sed dolor luctus, sed venenatis tortor efficitur. Pellentesque euismod elit nec eros aliquet, eget gravida neque tristique. Nulla facilisi. Vivamus in dui non purus bibendum facilisis. Sed auctor tortor non quam iaculis, vel mattis quam aliquam. Vivamus eget massa eu odio cursus aliquam. Donec auctor, velit vel scelerisque malesuada, tortor libero sollicitudin velit, nec ultricies libero odio id metus. Sed lacinia, felis in eleifend cursus, odio justo hendrerit risus, id bibendum enim quam a justo',
             monthlyRent,
+            image : 'https://source.unsplash.com/collection/30715847',
             numberRooms : numRooms
         });
         

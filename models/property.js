@@ -8,6 +8,7 @@ const { Schema } = mongoose;
 const PropertySchema = new Schema({
     address : String,
     description : String,
+    image : String,
     monthlyRent : Number,
     numberRooms : Number
 });

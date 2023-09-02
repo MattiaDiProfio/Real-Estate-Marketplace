@@ -1,0 +1,39 @@
+<% layout('./layouts/boilerplate') %>
+<div class=" col-6 offset-3">
+    <h1 class="mb-3">Search for properties</h1>
+    <form action="#">
+        <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <input type="text" id="city" class="form-control">
+        </div>
+        <label for="minRooms" class="form-label">Min Rooms</label>    
+        <select id="minRooms" class="form-select mb-3">
+            <option selected></option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+            <option value="4">Four</option>
+            <option value="5">Five</option>
+            <option value="6">Six</option>
+        </select>
+        <label for="maxRooms" class="form-label">Max Rooms</label>
+        <select id="maxRooms" class="form-select mb-3">
+            <option selected></option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+            <option value="4">Four</option>
+            <option value="5">Five</option>
+            <option value="6">Six</option>
+        </select>
+        <label for="sortBy" class="form-label">Sort by</label>
+        <select id="sortBy" class="form-select mb-3">
+            <option selected></option>
+            <option value="roomsAscending">Rooms - low to high</option>
+            <option value="roomsDescending">Rooms - high to low</option>
+            <option value="rentAscending">Rent - low to high</option>
+            <option value="rentDescending">Rent - high to low</option>
+        </select>
+        <button class="btn btn-success">Search</button>
+    </form>
+</div>

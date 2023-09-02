@@ -1,19 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Properties</title>
-</head>
-<body>
-    <h1>All Properties</h1>
-    <a href="/properties/new">new property</a>
-    <ul>
-        <% for(let property of allProperties) { %>
-            <li>
-                <a href="/properties/<%=property._id%>"><%= property.address %></a>
-            </li>
-        <% } %>
-    </ul>
-</body>
-</html>
+<% layout('./layouts/boilerplate') %>
+    <h1 class="mt-5">All Properties</h1>
+    <% for(let property of allProperties) { %>
+        <div class="card mb-3 d-flex flex-row">
+            <img src="<%= property.image %>" class="card-img-top" style="width: 50%; height: 250px;" alt="property image">
+            <div class="card-body">
+                <h5 class="card-title"><%= property.address %></h5>
+                <p class="card-text"><%= property.numberRooms %> <%= property.numberRooms === 1 ? 'room' : 'rooms' %></p>
+                <p class="card-text">£<%= property.monthlyRent %></p>
+                <p class="card-text"><%= property.description.substring(0,200) %>...</p>
+                <a href="/properties/<%=property._id%>" class="btn btn-primary">More</a>
+            </div>
+        </div>
+    <% } %>
