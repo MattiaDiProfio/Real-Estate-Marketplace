@@ -1,26 +1,56 @@
 <% layout('./layouts/boilerplate') %>
 
-<form class="col-6 offset-3 my-3">
-    <h1>Edit</h1>
-    <div class="my-3">
-        <a href="/properties/<%=property._id%>">back to <%=property.address%></a>
-    </div>
-    <img src="<%=property.image%>" class="w-100" style="height: 400px;" alt="property image">
-    <div class="my-3">
-        <label for="address" class="form-label">Address</label>
-        <input type="text" name="property[address]" id="address" class="form-control" value="<%=property.address%>">
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="numberRooms">Rooms</label>
-        <input class="form-control" type="number" name="property[numberRooms]" id="numberRooms" value="<%=property.numberRooms%>">
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="rent">Rent</label>
-        <input class="form-control" type="number" name="property[monthlyRent]" id="rent" value="<%=property.monthlyRent%>">
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
-        <textarea class="form-control" name="property[description]" id="description" cols="30" rows="5"><%=property.description%></textarea>
-    </div>
-    <button type="sumbit" class="btn btn-success">Edit</button>
-</form>
+<div class="col-6 offset-3">
+    <form class="needs-validation" action="/properties/<%=property._id%>/edit?_method=PUT" method="POST" novalidate>
+        <h1>Edit</h1>
+        <div class="my-3">
+            <a href="/properties/<%=property._id%>">back to <%=property.address%></a>
+        </div>
+        <img src="<%=property.image%>" class="w-100" style="height: 400px;" alt="property image">
+        <div class="my-3">
+            <!--  DIRECT USER TO EDIT PAGE FOR THE IMAGES GALLERY -->
+            <button class="btn btn-secondary">Edit Gallery</button>
+        </div>
+        <div class="my-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" name="property[address]" id="address" class="form-control" value="<%=property.address%>" required>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Address cannot be empty</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="numberRooms">Rooms</label>
+            <input class="form-control" type="number" name="property[numberRooms]" id="numberRooms" value="<%=property.numberRooms%>" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please specify a number of rooms</div>
+        <div class="mb-3">
+            <label class="form-label" for="rent">Rent</label>
+            <input class="form-control" type="number" name="property[monthlyRent]" id="rent" value="<%=property.monthlyRent%>" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please specify the monthly rent per room</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" name="property[description]" id="description" cols="30" rows="5" required><%=property.description%></textarea>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Description cannot be empty</div>
+        </div>
+        <button type="sumbit" class="btn btn-success">Edit</button>
+    </form>
+</div>
+
+<script>
+    (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+    })()
+</script>

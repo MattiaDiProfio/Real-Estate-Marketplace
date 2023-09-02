@@ -3,10 +3,12 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const engine = require('ejs-mate');
-
 const Property = require('./models/property');
+
+//validation
 const catchAsyncError = require('./utils/catchAsyncError');
 const ExpressError = require('./utils/ExpressError');
+const { propertySchema } = require('./schemas');
 
 //set up connection to mongoDB
 mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true });
@@ -22,6 +24,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method'));
 
+// joi validation middleware
+const validateProperty = (req, res, next) => {
+    //validate form data
+    const { error } = propertySchema.validate(req.body);
+    const errorMessage = error.details.map(err => err.message.join(', '));
+    if (validEntry.error) throw new ExpressError(errorMessage, 400);
+    else next(); //proceed to the next middleware
+}
 
 app.get('/', catchAsyncError(async (request, response) => {
     response.render('home')
@@ -59,10 +69,8 @@ app.get('/properties/:id/edit', catchAsyncError(async (req, res) => {
     res.render('properties/edit', { property });
 }));
 
-
 // post new property info to the db
-app.post('/properties', catchAsyncError(async (req, res) => {
-    if (!req.body.property) throw new ExpressError('Invalid property data', 400);
+app.post('/properties', validateProperty, catchAsyncError(async (req, res) => {
     const newProperty = new Property(req.body.property);
     await newProperty.save();
     res.redirect(`/properties/${newProperty._id}`);
@@ -88,8 +96,9 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    const { statusCode = 500, message = 'Something went wrong!' } = err;
-    res.status(statusCode).render('error');
+    const { statusCode } = err;
+    if (!statusCode) statusCode = 500;
+    res.status(statusCode).render('error', { err });
 });
 
 app.listen(3000, () => console.log('server live on port 3000'));
