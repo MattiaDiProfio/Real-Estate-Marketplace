@@ -1,15 +1,36 @@
 <% layout('./layouts/boilerplate') %>
 <div class="col-6 offset-3">
     <h1 class="mb-3">Login</h1>
-    <form action="/login" method="POST">
+    <form action="/login" method="POST" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" id="username" class="form-control">
+            <input type="text" id="username" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Username cannot be empty</div>
         </div>    
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" class="form-control">
+            <input type="password" id="password" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Password cannot be empty</div>
         </div>
         <button class="btn btn-success">Login</button>
     </form>
 </div>
+
+<script>
+    (() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+    })()
+</script>
