@@ -2,58 +2,72 @@
     <h1 class="mt-5">All Properties</h1>
 
     <div class="ms-auto">
-        <form action="#" class="row row-cols-lg-auto g-3 align-items-center">
+        <form action="/properties/search" method="POST" class="row row-cols-lg-auto g-3 align-items-center">
             <div class="mb-3 col-12">
                 <label for="city" class="form-label">City</label>
-                <input type="text" id="city" class="form-control">
+                <input type="text" id="city" class="form-control" name="filterParams[city]">
             </div>
             <div class="col-12">
                 <label for="minRooms" class="form-label">Min Rooms</label>    
-                <select id="minRooms" class="form-select mb-3">
-                    <option selected></option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
-                    <option value="5">Five</option>
-                    <option value="6">Six</option>
+                <select id="minRooms" class="form-select mb-3" name="filterParams[minRooms]">
+                    <option value="1" selected></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
                 </select>
             </div>
             <div class="col-12">
                 <label for="maxRooms" class="form-label">Max Rooms</label>
-                <select id="maxRooms" class="form-select mb-3">
-                    <option selected></option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
-                    <option value="5">Five</option>
-                    <option value="6">Six</option>
+                <select id="maxRooms" class="form-select mb-3" name="filterParams[maxRooms]">
+                    <option value="6" selected></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
                 </select>
             </div>
             <div class="col-12">
                 <label for="sortBy" class="form-label">Sort by</label>
-                <select id="sortBy" class="form-select mb-3">
-                    <option selected></option>
-                    <option value="roomsAscending">Rooms - low to high</option>
-                    <option value="roomsDescending">Rooms - high to low</option>
-                    <option value="rentAscending">Rent - low to high</option>
-                    <option value="rentDescending">Rent - high to low</option>
+                <select id="sortBy" class="form-select mb-3" name="filterParams[order]">
+                    <option value="rentLowHigh" selected></option>
+                    <option value="roomsLowHigh">Rooms - low to high</option>
+                    <option value="roomsHighLow">Rooms - high to low</option>
+                    <option value="rentLowHigh">Rent - low to high</option>
+                    <option value="rentHighLow">Rent - high to low</option>
                 </select>
             </div>
             <div class="col-12"><button class="btn mt-3 btn-success">Search</button></div>
         </form>
     </div>
     
-    <% for(let property of allProperties) { %>
-        <div class="card mb-3 d-flex flex-row">
-            <img src="<%= property.image %>" class="card-img-top" style="width: 50%; height: 250px;" alt="property image">
-            <div class="card-body">
-                <h5 class="card-title"><%= property.address %></h5>
-                <p class="card-text"><%= property.numberRooms %> <%= property.numberRooms === 1 ? 'room' : 'rooms' %></p>
-                <p class="card-text">£<%= property.monthlyRent %></p>
-                <p class="card-text"><%= property.description.substring(0,200) %>...</p>
-                <a href="/properties/<%=property._id%>" class="btn btn-primary">More</a>
-            </div>
+    <% if (!allProperties.length) { %>
+        <div class="alert alert-warning" role="alert">
+            Looks like there are no matches! Please try again.
         </div>
+    <% } else { %>
+
+        <% if (!calledFromNavbar) { %>
+            <div class="alert alert-info" role="alert">
+                We found <%=allProperties.length%> <%=allProperties.length == 1 ? 'listing' : 'listings'%> that 
+                <%=allProperties.length == 1 ? 'matches' : 'match'%> your search. 
+            </div> 
+        <% } %>
+
+        <% for(let property of allProperties) { %>
+            <div class="card mb-3 d-flex flex-row">
+                <img src="<%= property.image %>" class="card-img-top" style="width: 50%; height: 250px;" alt="property image">
+                <div class="card-body">
+                    <h5 class="card-title"><%= property.address %></h5>
+                    <p class="card-text"><%= property.numberRooms %> <%= property.numberRooms === 1 ? 'room' : 'rooms' %></p>
+                    <p class="card-text">£<%= property.monthlyRent %></p>
+                    <p class="card-text"><%= property.description.substring(0,200) %>...</p>
+                    <a href="/properties/<%=property._id%>" class="btn btn-primary">More</a>
+                </div>
+            </div>
+        <% } %>
     <% } %>

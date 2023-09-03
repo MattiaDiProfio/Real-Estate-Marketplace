@@ -40,7 +40,7 @@ app.get('/', catchAsyncError(async (request, response) => {
 // render a view of all properties
 app.get('/properties', catchAsyncError(async (req, res) => {
     const allProperties = await Property.find({});
-    res.render('properties/index', { allProperties });
+    res.render('properties/index', { allProperties, calledFromNavbar : true });
 }));
 
 //serve the form to create new property
@@ -50,6 +50,34 @@ app.get('/properties/new', (req, res) => {
 
 //serve form to allow user to perform a personal search of listings
 app.get('/properties/search', (req, res) => res.render('properties/search'));
+
+app.post('/properties/search', catchAsyncError(async (req, res) => {
+    let { city, minRooms, maxRooms, order } = req.body.filterParams;
+    city = city ? city : { $gt : '' } // select all cities if an address is not given
+    minRooms = Math.min(minRooms, maxRooms);
+    maxRooms = Math.max(minRooms, maxRooms);
+    let sortingCondition;
+    switch (order) {
+        case 'rentLowHigh' :
+            sortingCondition = { monthlyRent : 1 };
+            break;
+        case 'rentHighLow' :
+            sortingCondition = { monthlyRent : -1 };
+            break;
+        case 'roomsLowHigh' :
+            sortingCondition = { numberRooms : 1 };
+            break;
+        case 'roomsHighLow' :
+            sortingCondition = { numberRooms : - 1};
+            break;
+    }
+    let allProperties = await Property.find({
+        city : city,
+        numberRooms : { $gte : Number(minRooms), $lte : Number(maxRooms) }
+    }).sort(sortingCondition);
+
+    res.render('properties/index', { allProperties, calledFromNavbar : false });
+}));
 
 // serve forms to allow for user login and signup
 app.get('/login', (req, res) => res.render('users/login'));
