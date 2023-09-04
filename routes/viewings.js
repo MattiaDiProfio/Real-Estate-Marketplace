@@ -23,6 +23,7 @@ router.post('/' , catchAsyncError(async (req, res) => {
     await viewing.save();
     await property.save();
 
+    req.flash('success', 'Viewing booked successfully');
     res.redirect(`/properties/${property._id}`)
 }))
 

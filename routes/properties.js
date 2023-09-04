@@ -5,7 +5,6 @@ const Property = require('../models/property');
 const {validateProperty} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 
-
 // render a view of all properties
 router.get('/', catchAsyncError(async (req, res) => {
     const allProperties = await Property.find({});
@@ -56,7 +55,7 @@ router.get('/:id', catchAsyncError(async(req, res) => {
     res.render('properties/show', { property });
 }));
 
-// serve form to edit a specific rout
+// serve form to edit a specific route
 router.get('/:id/edit', catchAsyncError(async (req, res) => {
     const { id } = req.params;
     const property = await Property.findById(id);
@@ -68,6 +67,7 @@ router.post('/', validateProperty, catchAsyncError(async (req, res) => {
     const newProperty = new Property(req.body.property);
     newProperty.availableViewings = generateAvailableViewings();
     await newProperty.save();
+    req.flash('success', 'Listing created successfully');
     res.redirect(`/properties/${newProperty._id}`);
 }));
 
@@ -76,6 +76,7 @@ router.put('/:id/edit', catchAsyncError(async(req, res) => {
     const { id } = req.params;
     const property = await Property.findByIdAndUpdate(id, { ...req.body.property }, { new : true });
     await property.save();
+    req.flash('success', 'Listing updated successfully');
     res.redirect(`/properties/${property._id}`)
 }));
 
@@ -83,6 +84,7 @@ router.put('/:id/edit', catchAsyncError(async(req, res) => {
 router.delete('/:id', catchAsyncError(async(req, res) => {
     const { id } = req.params;
     await Property.findByIdAndDelete(id);
+    req.flash('success', 'Listing deleted successfully');
     res.redirect('/properties');
 }));
 

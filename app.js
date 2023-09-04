@@ -3,16 +3,12 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const engine = require('ejs-mate');
-
-//validation
 const catchAsyncError = require('./utils/catchAsyncError');
 const ExpressError = require('./utils/ExpressError');
-
-//property routes
 const properties = require('./routes/properties');
-
-//viewing routes
 const viewings = require('./routes/viewings');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 //set up connection to mongoDB
 mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true, useUnifiedTopology : true });
@@ -28,6 +24,26 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ 
+        secret : 'sessionSecret', 
+        resave : false, 
+        saveUninitialized : true, 
+        cookie : {
+            expires : Date.now() + (3600 * 1000 * 24 * 7),
+            maxAge : (3600 * 1000 * 24 * 7),
+            httpOnly : true
+        }
+    }));
+app.use(flash());
+
+//flash middleware
+app.use((req, res, next) => {
+    //we have automatic access to this variable in every template by default
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 app.use('/properties', properties);
 app.use('/properties/:id/viewings', viewings);

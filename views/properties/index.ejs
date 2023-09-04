@@ -52,10 +52,11 @@
     <% } else { %>
 
         <% if (!calledFromNavbar) { %>
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
                 We found <%=allProperties.length%> <%=allProperties.length == 1 ? 'listing' : 'listings'%> that 
-                <%=allProperties.length == 1 ? 'matches' : 'match'%> your search. 
-            </div> 
+                <%=allProperties.length == 1 ? 'matches' : 'match'%> your search.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <% } %>
 
         <% for(let property of allProperties) { %>
