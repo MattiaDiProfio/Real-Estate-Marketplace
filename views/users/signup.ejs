@@ -1,30 +1,31 @@
 <% layout('./layouts/boilerplate') %>
 <div class="col-6 offset-3">
     <h1 class="mb-3">Signup</h1>
-    <form action="/signup" method="POST" class="needs-validation" novalidate>
+    <form action="/auth/signup" method="POST" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" class="form-control" required>
+            <input name="signup[email]" type="email" id="email" class="form-control" required>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Email cannot be empty</div>
         </div>    
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" id="username" class="form-control" required>
+            <input name="signup[username]" type="text" id="username" class="form-control" required>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Username cannot be empty</div>
         </div>    
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" class="form-control" required>
+            <input name="signup[password]" type="password" id="password" class="form-control" required>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Password cannot be empty</div>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="landlordCheckBox">
+            <input name="signup[isLandlord]" class="form-check-input" type="checkbox" value='true' id="landlordCheckBox">
             <label class="form-check-label" for="landlordCheckBox">Register as landlord</label>
         </div>
-        <button class="btn btn-success">Signup</button>
+        <button class="btn mb-3 btn-success">Signup</button>
+        <p>Already have an account? <a href="/auth/login">Log-in</a> instead.</p>
     </form>
 </div>
 

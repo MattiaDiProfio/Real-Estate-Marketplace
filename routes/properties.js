@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const catchAsyncError = require('../utils/catchAsyncError');
 const Property = require('../models/property');
-const {validateProperty} = require('../middleware');
+const {validateProperty, isLoggedIn} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 
 // render a view of all properties
@@ -12,7 +12,7 @@ router.get('/', catchAsyncError(async (req, res) => {
 }));
 
 //serve the form to create new property
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('properties/new');
 })
 
@@ -56,14 +56,14 @@ router.get('/:id', catchAsyncError(async(req, res) => {
 }));
 
 // serve form to edit a specific route
-router.get('/:id/edit', catchAsyncError(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsyncError(async (req, res) => {
     const { id } = req.params;
     const property = await Property.findById(id);
     res.render('properties/edit', { property });
 }));
 
 // post new property info to the db
-router.post('/', validateProperty, catchAsyncError(async (req, res) => {
+router.post('/', validateProperty, isLoggedIn, catchAsyncError(async (req, res) => {
     const newProperty = new Property(req.body.property);
     newProperty.availableViewings = generateAvailableViewings();
     await newProperty.save();
@@ -72,7 +72,7 @@ router.post('/', validateProperty, catchAsyncError(async (req, res) => {
 }));
 
 // edit property using data from the edit form
-router.put('/:id/edit', catchAsyncError(async(req, res) => {
+router.put('/:id/edit', isLoggedIn, catchAsyncError(async(req, res) => {
     const { id } = req.params;
     const property = await Property.findByIdAndUpdate(id, { ...req.body.property }, { new : true });
     await property.save();
@@ -81,7 +81,7 @@ router.put('/:id/edit', catchAsyncError(async(req, res) => {
 }));
 
 // delete property from db
-router.delete('/:id', catchAsyncError(async(req, res) => {
+router.delete('/:id', isLoggedIn, catchAsyncError(async(req, res) => {
     const { id } = req.params;
     await Property.findByIdAndDelete(id);
     req.flash('success', 'Listing deleted successfully');

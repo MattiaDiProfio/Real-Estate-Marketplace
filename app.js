@@ -5,8 +5,9 @@ const methodOverride = require('method-override');
 const engine = require('ejs-mate');
 const catchAsyncError = require('./utils/catchAsyncError');
 const ExpressError = require('./utils/ExpressError');
-const properties = require('./routes/properties');
-const viewings = require('./routes/viewings');
+const propertiesRoutes = require('./routes/properties');
+const viewingsRoutes = require('./routes/viewings');
+const usersRoutes = require('./routes/users');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
@@ -49,25 +50,21 @@ passport.deserializeUser(User.deserializeUser());
 
 //flash middleware
 app.use((req, res, next) => {
-    //we have automatic access to this variable in every template by default
+    //we have automatic access to these variables in every template by default
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
+    res.locals.currentUser = req.user;
     next();
 })
 
-app.use('/properties', properties);
-app.use('/properties/:id/viewings', viewings);
-
+app.use('/properties', propertiesRoutes);
+app.use('/properties/:id/viewings', viewingsRoutes);
+app.use('/auth', usersRoutes);
 app.get('/', catchAsyncError(async (request, response) => {
     response.render('home')
 }));
 
-
-// serve forms to allow for user login and signup
-app.get('/login', (req, res) => res.render('users/login'));
-app.get('/signup', (req, res) => res.render('users/signup'))
-
-
+ 
 app.all('*', (req, res, next) => {
     next(new ExpressError('404 Page Not Found!', 404));
 })
