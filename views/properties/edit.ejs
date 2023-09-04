@@ -11,11 +11,17 @@
             <!--  DIRECT USER TO EDIT PAGE FOR THE IMAGES GALLERY -->
             <button class="btn btn-secondary">Edit Gallery</button>
         </div>
-        <div class="my-3">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" name="property[address]" id="address" class="form-control" value="<%=property.address%>" required>
-                <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Address cannot be empty</div>
+        <div class="mb-3">
+            <label class="form-label" for="street">Street</label>
+            <input class="form-control" type="text" name="property[street]" id="street" value="<%=property.street%>" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Street cannot be empty</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="city">City</label>
+            <input class="form-control" type="text" name="property[city]" id="city" value="<%=property.city%>" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">City cannot be empty</div>
         </div>
         <div class="mb-3">
             <label class="form-label" for="numberRooms">Rooms</label>

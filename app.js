@@ -3,15 +3,39 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const engine = require('ejs-mate');
+
 const Property = require('./models/property');
+const Viewing = require('./models/viewing');
 
 //validation
 const catchAsyncError = require('./utils/catchAsyncError');
 const ExpressError = require('./utils/ExpressError');
 const { propertySchema } = require('./schemas');
 
+
+// functions will be moved to a static folder later on
+function getRandomDate() {
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate);
+    const randomDaysToAdd = Math.floor(Math.random() * 60) + 1;
+    futureDate.setDate(currentDate.getDate() + randomDaysToAdd);
+    const day = String(futureDate.getDate()).padStart(2, '0');
+    const month = String(futureDate.getMonth() + 1).padStart(2, '0');
+    const year = futureDate.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+const generateAvailableViewings = () => {
+    let randomUKDates = [];
+    for (let i = 0; i < 10; i++) {
+        const randomDate = getRandomDate();
+        randomUKDates.push(randomDate);
+    }
+    return randomUKDates;
+}
+
+
 //set up connection to mongoDB
-mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true });
+mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true, useUnifiedTopology : true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error!'));
 db.once('open', () => console.log('database connected!'));
@@ -27,11 +51,14 @@ app.use(methodOverride('_method'));
 // joi validation middleware
 const validateProperty = (req, res, next) => {
     //validate form data
-    const { error } = propertySchema.validate(req.body);
-    const errorMessage = error.details.map(err => err.message.join(', '));
-    if (validEntry.error) throw new ExpressError(errorMessage, 400);
+    let {error} = propertySchema.validate(req.body);
+    if (error) {
+        let errorMessage = error.details.map(err => err.message.join(', '));
+        throw new ExpressError(errorMessage, 400);
+    }
     else next(); //proceed to the next middleware
 }
+
 
 app.get('/', catchAsyncError(async (request, response) => {
     response.render('home')
@@ -86,7 +113,7 @@ app.get('/signup', (req, res) => res.render('users/signup'))
 // render a more detailed view of a single property
 app.get('/properties/:id', catchAsyncError(async(req, res) => {
     const { id } = req.params;
-    const property = await Property.findById(id);
+    const property = await Property.findById(id).populate('viewings');
     res.render('properties/show', { property });
 }));
 
@@ -100,6 +127,7 @@ app.get('/properties/:id/edit', catchAsyncError(async (req, res) => {
 // post new property info to the db
 app.post('/properties', validateProperty, catchAsyncError(async (req, res) => {
     const newProperty = new Property(req.body.property);
+    newProperty.availableViewings = generateAvailableViewings();
     await newProperty.save();
     res.redirect(`/properties/${newProperty._id}`);
 }));
@@ -119,12 +147,36 @@ app.delete('/properties/:id', catchAsyncError(async(req, res) => {
     res.redirect('/properties');
 }));
 
+
+app.post('/properties/:id/viewings' , catchAsyncError(async (req, res) => {
+
+    const { id } = req.params;
+    const { date } = req.body.viewing;
+
+    //find the listing where the booking was requested from
+    const property = await Property.findById(id)
+
+    console.log('before viewing')
+
+    const viewing = new Viewing();
+    viewing.date = date;
+
+
+    property.viewings.push(viewing);
+    property.availableViewings.splice(property.availableViewings.indexOf(date), 1);
+
+    await viewing.save();
+    await property.save();
+
+    res.redirect(`/properties/${property._id}`)
+}))
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('404 Page Not Found!', 404));
 })
 
 app.use((err, req, res, next) => {
-    const { statusCode } = err;
+    let { statusCode } = err;
     if (!statusCode) statusCode = 500;
     res.status(statusCode).render('error', { err });
 });

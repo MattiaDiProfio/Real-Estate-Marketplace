@@ -5,10 +5,16 @@
         <a href="/properties">Cancel</a>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="address">Address</label>
-        <input class="form-control" type="text" name="property[address]" id="address" required>
+        <label class="form-label" for="street">Street</label>
+        <input class="form-control" type="text" name="property[street]" id="street" required>
         <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Address cannot be empty</div>
+        <div class="invalid-feedback">Street cannot be empty</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="city">City</label>
+        <input class="form-control" type="text" name="property[city]" id="city" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">City cannot be empty</div>
     </div>
     <div class="mb-3">
         <label class="form-label" for="numberRooms">Rooms</label>
@@ -18,7 +24,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label" for="image">Image URL</label>
-        <input class="form-control" type="text" name="property[imae=ge]" id="image" required>
+        <input class="form-control" type="text" name="property[image]" id="image" required>
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Image URL cannot be empty</div>
     </div>
