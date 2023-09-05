@@ -3,9 +3,9 @@ const router = express.Router({ mergeParams : true});
 const catchAsyncError = require('../utils/catchAsyncError');
 const Property = require('../models/property');
 const Viewing = require('../models/viewing');
+const { isLoggedIn } = require('../middleware');
 
-
-router.post('/' , catchAsyncError(async (req, res) => {
+router.post('/' , isLoggedIn, catchAsyncError(async (req, res) => {
 
     const { id } = req.params;
     const { date } = req.body.viewing;
@@ -15,7 +15,8 @@ router.post('/' , catchAsyncError(async (req, res) => {
 
     const viewing = new Viewing();
     viewing.date = date;
-
+    viewing.requestedBy = req.user._id;
+    viewing.property = property._id;
 
     property.viewings.push(viewing);
     property.availableViewings.splice(property.availableViewings.indexOf(date), 1);
