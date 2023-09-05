@@ -1,4 +1,6 @@
 const { propertySchema } = require('./schemas');
+const Property = require('./models/property');
+
 
 module.exports.validateProperty = (req, res, next) => {
     //validate form data
@@ -22,5 +24,16 @@ module.exports.storeReturnTo = (req, res, next) => {
     if (req.session.returnTo) {
         res.locals.returnTo = req.session.returnTo;
     }
+    next();
+}
+
+module.exports.isLandlord = async (req, res, next) => {
+    const { id } = req.params;
+    const property = await Property.findById(id);
+    //protect this route when author is not logged in
+    if (!property.landlord.equals(req.user._id)) {
+        req.flash('error', 'Author credentials required');
+        return res.redirect(`/properties/${property._id}`)
+    } 
     next();
 }

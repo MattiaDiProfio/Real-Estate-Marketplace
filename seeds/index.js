@@ -68,6 +68,10 @@ const seedDatabase = async() => {
             image : 'https://source.unsplash.com/collection/30715847',
             numberRooms : numRooms, 
             availableViewings : generateAvailableViewings(),
+
+
+            // for now user { mattia : mattia } is the landlord of all properties
+            landlord : "64f716134535ebb6a8fd4dba"
         });
         
         await newProperty.save();

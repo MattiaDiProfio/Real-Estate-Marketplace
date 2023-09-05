@@ -17,7 +17,11 @@ const PropertySchema = new Schema({
     viewings : [{
         type : Schema.Types.ObjectId,
         ref : 'Viewing'
-    }]
+    }],
+    landlord : {
+        type : Schema.Types.ObjectId,
+        ref : 'User'
+    }
 });
 
 PropertySchema.virtual('address').get(function() {

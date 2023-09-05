@@ -5,6 +5,9 @@
         <a href="/properties">All properties</a>
     </div>
     <img src="<%=property.image%>" class="w-100" style="height: 400px;" alt="property image">
+
+    <strong><p class="my-3">Listing uploaded by <%= property.landlord.username %></p></strong>
+
     <p class="my-3"><%= property.description %><p>
     <p class="display-6">£<%= property.monthlyRent %><p>
     <p class="display-6"><%= property.numberRooms %> <%= property.numberRooms === 1 ? 'Room' : 'Rooms' %><p>
@@ -27,12 +30,15 @@
         <% } %>
     </ul>
 
-    <div class="d-flex">
-        <form action="/properties/<%=property._id%>/edit">
-            <button class="btn btn-warning">Edit</button>
-        </form>
-        <form action="/properties/<%=property._id%>?_method=DELETE" method="POST">
-            <button class="ms-2 btn btn-danger">Delete</button>
-        </form>
-    </div>
+    <!-- frontend condition to allow only listing author to modify listing -->
+    <% if (currentUser && property.landlord.equals(currentUser._id)) { %>
+        <div class="d-flex">
+            <form action="/properties/<%=property._id%>/edit">
+                <button class="btn btn-warning">Edit</button>
+            </form>
+            <form action="/properties/<%=property._id%>?_method=DELETE" method="POST">
+                <button class="ms-2 btn btn-danger">Delete</button>
+            </form>
+        </div>
+    <% } %>
 </div>
