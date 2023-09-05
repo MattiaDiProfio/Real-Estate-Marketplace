@@ -58,8 +58,11 @@ app.use((req, res, next) => {
 })
 
 app.use('/properties', propertiesRoutes);
+
 app.use('/properties/:id/viewings', viewingsRoutes);
+
 app.use('/auth', usersRoutes);
+
 app.get('/', catchAsyncError(async (request, response) => {
     response.render('home')
 }));

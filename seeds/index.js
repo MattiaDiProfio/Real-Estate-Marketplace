@@ -2,47 +2,13 @@ const mongoose = require('mongoose');
 const Property = require('../models/property')
 const streets = require('./streets');
 const cities  = require('./cities');
+const { generateAvailableViewings } = require('../utils/generateDates');
+const { rentPerRoom } = require('../utils/generateRent');
 
 mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error!'));
 db.once('open', () => console.log('database connected!'));
-
-const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-/**
- * function rentPerRoom
- * generate rent per room per month between £100 and £300
- * with £25 increment between each value from the selection
- */
-const rentPerRoom = (min=100, max=300, increment=25) => {
-    const numPossibleValues = Math.floor((max - min) / increment) + 1;
-    const randomIndex = getRandomNumber(0, numPossibleValues - 1);
-    const randomNumber = min + randomIndex * increment;
-    return randomNumber;
-}
-
-/**
- * return an array of 10 random dates in the future from now
- */
-function getRandomDate() {
-    const currentDate = new Date();
-    const futureDate = new Date(currentDate);
-    const randomDaysToAdd = Math.floor(Math.random() * 60) + 1;
-    futureDate.setDate(currentDate.getDate() + randomDaysToAdd);
-    const day = String(futureDate.getDate()).padStart(2, '0');
-    const month = String(futureDate.getMonth() + 1).padStart(2, '0');
-    const year = futureDate.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-const generateAvailableViewings = () => {
-    let randomUKDates = [];
-    for (let i = 0; i < 10; i++) {
-        const randomDate = getRandomDate();
-        randomUKDates.push(randomDate);
-    }
-    return randomUKDates;
-}
 
 
 const seedDatabase = async() => {
@@ -70,7 +36,7 @@ const seedDatabase = async() => {
             availableViewings : generateAvailableViewings(),
 
 
-            // for now user { mattia : mattia } is the landlord of all properties
+            // for now user { mattia : mattia } is the landlord of all seeded listings
             landlord : "64f716134535ebb6a8fd4dba"
         });
         

@@ -5,27 +5,8 @@ const Property = require('../models/property');
 const Viewing = require('../models/viewing');
 const { isLoggedIn } = require('../middleware');
 
-router.post('/' , isLoggedIn, catchAsyncError(async (req, res) => {
+const viewingsController = require('../controllers/viewings');
 
-    const { id } = req.params;
-    const { date } = req.body.viewing;
-
-    //find the listing where the booking was requested from
-    const property = await Property.findById(id)
-
-    const viewing = new Viewing();
-    viewing.date = date;
-    viewing.requestedBy = req.user._id;
-    viewing.property = property._id;
-
-    property.viewings.push(viewing);
-    property.availableViewings.splice(property.availableViewings.indexOf(date), 1);
-
-    await viewing.save();
-    await property.save();
-
-    req.flash('success', 'Viewing booked successfully');
-    res.redirect(`/properties/${property._id}`)
-}))
+router.post('/' , isLoggedIn, catchAsyncError( viewingsController.placeViewing ));
 
 module.exports = router;
