@@ -9,4 +9,6 @@ const viewingsController = require('../controllers/viewings');
 
 router.post('/' , isLoggedIn, catchAsyncError( viewingsController.placeViewing ));
 
+router.delete('/', viewingsController.cancelViewing )
+
 module.exports = router;

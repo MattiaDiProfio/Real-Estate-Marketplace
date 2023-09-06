@@ -35,7 +35,7 @@
     <p class="display-6"><%= property.rooms %><p>
 
     <h5 class="display-6 mb-3">Interested? Book a viewing</h5>
-    <form action="/properties/<%=property._id%>/viewings" method="POST">
+    <form action="/properties/<%=property._id%>/viewings?userID=<%=currentUser._id%>" method="POST">
         <select name="viewing[date]" class="form-select mb-3">
             <option value="0" selected disabled>Choose a date</option>
             <% for(let date of property.availableViewings) { %>
@@ -44,13 +44,6 @@
         </select>
         <button class="btn btn-success mb-3">Book</button>
     </form>
-
-    <p>Booked Viewings so far (delete afterwards)</p>
-    <ul>
-        <% for(let viewing of property.viewings) { %>
-            <li><%= viewing.date %></li>
-        <% } %>
-    </ul>
 
     <!-- frontend condition to allow only listing author to modify listing -->
     <% if (currentUser && property.landlord.equals(currentUser._id)) { %>

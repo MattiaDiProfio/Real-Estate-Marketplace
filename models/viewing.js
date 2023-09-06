@@ -13,5 +13,4 @@ const ViewingSchema = new Schema({
     }
 });
 
-
 module.exports = new mongoose.model('Viewing', ViewingSchema);

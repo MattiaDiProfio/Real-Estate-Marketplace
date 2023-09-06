@@ -15,6 +15,10 @@ const UserSchema = new Schema({
     likedListings : [{
         type : Schema.Types.ObjectId,
         ref : 'Property'
+    }],
+    upcomingViewings : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Viewing'
     }]
 });
 
