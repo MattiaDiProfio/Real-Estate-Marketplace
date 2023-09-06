@@ -2,9 +2,14 @@
 <div>
     <div class="d-flex justify-content-between align-items-center">
         <h3>Welcome back <%= user.username %></h3>
-        <form action="/auth/logout">
-            <button class="btn btn-primary">Logout</button>
-        </form>
+        <div class="d-flex">
+            <form action="/auth/logout">
+                <button class="btn btn-primary">Logout</button>
+            </form>
+            <form action="/auth/<%=user._id%>/delete?_method=DELETE" method="POST">
+                <button class="ms-2 btn btn-danger">Delete Account</button>
+            </form>
+        </div>
     </div>
     
     <p class="display-4 my-4" style="font-size: 1.5rem;">Liked Listings</p>

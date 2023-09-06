@@ -1,5 +1,7 @@
 const User = require('../models/user');
+const Property = require('../models/property');
 const passport = require('passport');
+const Viewing = require('../models/viewing');
 
 module.exports.serveSignupForm = (req, res) => res.render('users/signup')
 
@@ -45,3 +47,26 @@ module.exports.showUserDashboard = async (req, res) => {
     const user = await User.findById(id).populate('likedListings').populate({path : 'upcomingViewings', populate : { path : 'property' }});
     res.render('users/dashboard', { user });
 };
+
+module.exports.deleteAccount = async(req, res) => {
+    const userID = req.params.id;
+    const user = await User
+        .findById(userID)
+        .populate({ 
+            path : 'upcomingViewings', 
+            populate : [{ path : 'date' }, { path : 'property'}]
+        })
+
+    for (let viewing of user.upcomingViewings) {
+        const date = viewing.date;
+        const property = await Property.findById(viewing.property._id).populate('availableViewings');
+
+        const newViewing = new Viewing({ date, property : property._id });
+        await newViewing.save();
+        property.availableViewings.push(newViewing._id);
+        await property.save();
+    }
+    await User.findByIdAndDelete(userID);
+    req.flash('success', 'Your account was successfully deleted');
+    res.redirect('/properties')
+}

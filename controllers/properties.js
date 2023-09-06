@@ -86,14 +86,6 @@ module.exports.toggleLike = async(req, res) => {
     if (indexOfProperty == -1) user.likedListings.push(propertyID);
     else user.likedListings.splice(indexOfProperty, 1);
     
-    /**
-        / check if the propertyID is in the user's liked property
-        / if yes then remove it otherwise add it 
-        make sure that when a property is deleted from the db it is removed from all the likedProperty lists (use a post schema middleware)
-        / change the icon on the show page based upon the status
-        / display listing in card on the dashboard
-     */
-
     await user.save();
     res.redirect(`/properties/${propertyID}`);
 }

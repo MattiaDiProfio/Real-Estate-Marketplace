@@ -37,7 +37,7 @@ const seedDatabase = async() => {
 
 
             // for now user { mattia : mattia } is the landlord of all seeded listings
-            landlord : "64f836fe1c79d443e80499f9"
+            landlord : "64f88aafdbf90f29bb352a51"
         });
         
         await newProperty.save();

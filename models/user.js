@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 const { Schema } = mongoose;
 
+const Viewing = require('./viewing');
+const Property = require('./property');
+
 const UserSchema = new Schema({
     email : {
         type : String,
