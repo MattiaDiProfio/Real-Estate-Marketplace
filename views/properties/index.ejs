@@ -64,7 +64,7 @@
                 <img src="<%= property.image %>" class="card-img-top" style="width: 50%; height: 250px;" alt="property image">
                 <div class="card-body">
                     <h5 class="card-title"><%= property.address %></h5>
-                    <p class="card-text"><%= property.numberRooms %> <%= property.numberRooms === 1 ? 'room' : 'rooms' %></p>
+                    <p class="card-text"><%= property.rooms %></p>
                     <p class="card-text">£<%= property.monthlyRent %></p>
                     <p class="card-text"><%= property.description.substring(0,200) %>...</p>
                     <a href="/properties/<%=property._id%>" class="btn btn-primary">More</a>

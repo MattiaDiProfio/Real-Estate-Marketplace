@@ -11,7 +11,11 @@ const UserSchema = new Schema({
     isLandlord : {
         type : Boolean,
         required : true
-    }
+    }, 
+    likedListings : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Property'
+    }]
 });
 
 UserSchema.plugin(passportLocalMongoose);

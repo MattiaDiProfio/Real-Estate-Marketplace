@@ -1,5 +1,7 @@
 const Property = require('../models/property');
 const { generateAvailableViewings } = require('../utils/generateDates');
+const User = require('../models/user');
+const user = require('../models/user');
 
 module.exports.showAllListings = async (req, res) => {
     const allProperties = await Property.find({});
@@ -72,4 +74,26 @@ module.exports.deleteListing = async(req, res) => {
     await Property.findByIdAndDelete(id);
     req.flash('success', 'Listing deleted successfully');
     res.redirect('/properties');
+}
+
+module.exports.toggleLike = async(req, res) => {
+    const propertyID = req.params.id;
+    const { userID } = req.query;
+
+    const user = await User.findById(userID);
+    const indexOfProperty = user.likedListings.indexOf(propertyID);
+
+    if (indexOfProperty == -1) user.likedListings.push(propertyID);
+    else user.likedListings.splice(indexOfProperty, 1);
+    
+    /**
+        / check if the propertyID is in the user's liked property
+        / if yes then remove it otherwise add it 
+        make sure that when a property is deleted from the db it is removed from all the likedProperty lists (use a post schema middleware)
+        / change the icon on the show page based upon the status
+        / display listing in card on the dashboard
+     */
+
+    await user.save();
+    res.redirect(`/properties/${propertyID}`);
 }

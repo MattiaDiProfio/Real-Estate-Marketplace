@@ -27,4 +27,6 @@ router.route('/:id/edit')
     .get( isLoggedIn, catchAsyncError( propertiesController.serveEditForm ))
     .put( isLoggedIn, isLandlord, catchAsyncError( propertiesController.editListing ));
 
+router.put('/:id/toggleLike', propertiesController.toggleLike );
+
 module.exports = router;

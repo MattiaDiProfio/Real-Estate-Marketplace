@@ -16,4 +16,6 @@ router.route('/login')
 
 router.get('/logout', usersController.logoutUser )
 
+router.get('/:id/dashboard', usersController.showUserDashboard )
+
 module.exports = router;

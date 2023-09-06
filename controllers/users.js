@@ -39,3 +39,9 @@ module.exports.logoutUser = (req, res, next) => {
         res.redirect('/properties');
     });
 }
+
+module.exports.showUserDashboard = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id).populate('likedListings'); 
+    res.render('users/dashboard', { user });
+};
