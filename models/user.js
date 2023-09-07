@@ -15,6 +15,7 @@ const UserSchema = new Schema({
         type : Boolean,
         required : true
     }, 
+    // basic user specific fields
     likedListings : [{
         type : Schema.Types.ObjectId,
         ref : 'Property'
@@ -22,6 +23,11 @@ const UserSchema = new Schema({
     upcomingViewings : [{
         type : Schema.Types.ObjectId,
         ref : 'Viewing'
+    }],
+    //landlord specif field
+    myListings : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Property'
     }]
 });
 
