@@ -3,7 +3,7 @@ const { generateAvailableViewings } = require('../utils/generateDates');
 const User = require('../models/user');
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); 
-const mapBoxToken = "";
+const mapBoxToken = "pk.eyJ1IjoibWF0dGlhZGlwcm9maW8xIiwiYSI6ImNsbG54ZXdjZjA1ZWwzZm1xYmM2YTlzd3EifQ.OXFg-nuVZkEHCXeCp5mqkw";
 const geoCoder = mbxGeocoding({ accessToken : mapBoxToken });
 
 module.exports.showAllListings = async (req, res) => {
