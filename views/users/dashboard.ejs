@@ -19,7 +19,6 @@
     
     <% if (user.isLandlord) { %>
 
-
         <p class="display-4 my-4" style="font-size: 1.5rem;">My Listings</p>
         <% if (user.myListings.length) { %>
             <div class="d-flex">
@@ -39,16 +38,19 @@
         <% } %>
 
         <p class="display-4 my-4" style="font-size: 1.5rem;">Upcoming Viewings</p>
-        <% if (user.upcomingViewings.length) { %>
+        <% if (user.myListings.length) { %>
             <div class="d-flex">
-                <% for (let viewing of user.upcomingViewings) { %>
-                    <div class="card ms-3 mb-5" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= viewing.property.address %></h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary"><%= viewing.date %></h6>
-                        <form action="/properties/<%=viewing.property._id%>/viewings?userID=<%=currentUser._id%>&viewingID=<%=viewing._id%>&_method=DELETE" method="POST"><button class="btn btn-danger">Cancel</button></form>
-                    </div>
-                    </div>
+                <% for (let listing of user.myListings) { %>
+                    <% for (let viewing of listing.viewings) { %>
+                        <div class="card ms-3" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=viewing.property.address%></h5>
+                            <p class="card-text">on <%=viewing.date%></p>
+                            <p class="card-text">with <%=viewing.requestedBy.username%></p>
+                            <a href="/properties/<%=listing._id%>" class="btn btn-primary">View</a>
+                        </div>
+                        </div>
+                    <% } %>
                 <% } %>
         <% } else { %>
             <h4>Looks like you have no upcoming viewings.</h4>

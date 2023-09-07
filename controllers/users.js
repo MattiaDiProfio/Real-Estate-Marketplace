@@ -44,7 +44,10 @@ module.exports.logoutUser = (req, res, next) => {
 
 module.exports.showUserDashboard = async (req, res) => {
     const { id } = req.params;
-    const user = await User.findById(id).populate('myListings').populate({path : 'upcomingViewings', populate : { path : 'property' }});
+    const user = await User.findById(id)
+        .populate({path : 'myListings', populate : { path : 'viewings', populate : [{path : 'date'}, {path : 'requestedBy', populate : {path : 'username'}}, {path : 'property'}] }})
+        .populate({path : 'upcomingViewings', populate : { path : 'property' }});
+
     res.render('users/dashboard', { user });
 };
 
