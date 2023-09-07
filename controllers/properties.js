@@ -1,7 +1,6 @@
 const Property = require('../models/property');
 const { generateAvailableViewings } = require('../utils/generateDates');
 const User = require('../models/user');
-const user = require('../models/user');
 
 module.exports.showAllListings = async (req, res) => {
     const allProperties = await Property.find({});
@@ -53,10 +52,14 @@ module.exports.serveEditForm = async (req, res) => {
 }
 
 module.exports.createListing = async (req, res) => {
+    const userID = req.user._id
     const newProperty = new Property(req.body.property);
-    newProperty.landlord = req.user._id;
+    const landlord = await User.findById(userID);
+    newProperty.landlord = userID;
     newProperty.availableViewings = generateAvailableViewings();
+    landlord.myListings.push(newProperty._id);
     await newProperty.save();
+    await landlord.save();
     req.flash('success', 'Listing created successfully');
     res.redirect(`/properties/${newProperty._id}`);
 }
@@ -71,7 +74,11 @@ module.exports.editListing = async (req, res) => {
 
 module.exports.deleteListing = async(req, res) => {
     const { id } = req.params;
+    const userID = req.user._id;
+    const landlord = await User.findById(userID);
+    landlord.myListings.splice(landlord.myListings.indexOf(id), 1);
     await Property.findByIdAndDelete(id);
+    await landlord.save();
     req.flash('success', 'Listing deleted successfully');
     res.redirect('/properties');
 }

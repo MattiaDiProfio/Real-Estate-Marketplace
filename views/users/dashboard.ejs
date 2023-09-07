@@ -23,7 +23,7 @@
         <p class="display-4 my-4" style="font-size: 1.5rem;">My Listings</p>
         <% if (user.myListings.length) { %>
             <div class="d-flex">
-                <% for (let listing of user.likedListings) { %>
+                <% for (let listing of user.myListings) { %>
                     <div class="card ms-3" style="width: 18rem;">
                     <img src="<%=listing.image%>" class="card-img-top" alt="...">
                     <div class="card-body">
