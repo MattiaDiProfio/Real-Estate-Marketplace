@@ -10,6 +10,17 @@ const { Schema } = mongoose;
 const PropertySchema = new Schema({
     street : String,
     city : String,
+    geometry : {
+        type : {
+            type : String,
+            enum : ['Point'],
+            required : true  
+        }, 
+        coordinates : {
+            type : [Number], 
+            required : true
+        }
+    },
     description : String,
     image : String,
     monthlyRent : Number,

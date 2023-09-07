@@ -34,10 +34,12 @@ const seedDatabase = async() => {
             image : 'https://source.unsplash.com/collection/30715847',
             numberRooms : numRooms, 
             availableViewings : generateAvailableViewings(),
-
-
+            geometry : {
+                type : 'Point', 
+                coordinates : [city.longitude, city.latitude]
+            },
             // for now user { mattia : mattia } is the landlord of all seeded listings
-            landlord : "64f88aafdbf90f29bb352a51"
+            landlord : "64f97c9cf917a0630f20fca1"
         });
         
         await newProperty.save();

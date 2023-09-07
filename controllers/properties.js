@@ -2,6 +2,10 @@ const Property = require('../models/property');
 const { generateAvailableViewings } = require('../utils/generateDates');
 const User = require('../models/user');
 
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); 
+const mapBoxToken = "";
+const geoCoder = mbxGeocoding({ accessToken : mapBoxToken });
+
 module.exports.showAllListings = async (req, res) => {
     const allProperties = await Property.find({});
     res.render('properties/index', { allProperties, calledFromNavbar : true });
@@ -52,16 +56,24 @@ module.exports.serveEditForm = async (req, res) => {
 }
 
 module.exports.createListing = async (req, res) => {
+
+    const geoData = await geoCoder.forwardGeocode({
+        query : `${req.body.city}`,
+        limit : 1
+    }).send()
+
     const userID = req.user._id
     const newProperty = new Property(req.body.property);
     const landlord = await User.findById(userID);
     newProperty.landlord = userID;
+    newProperty.geometry = geoData.body.features[0].geometry;
     newProperty.availableViewings = generateAvailableViewings();
     landlord.myListings.push(newProperty._id);
     await newProperty.save();
     await landlord.save();
     req.flash('success', 'Listing created successfully');
     res.redirect(`/properties/${newProperty._id}`);
+    res.send('ok!');
 }
 
 module.exports.editListing = async (req, res) => {

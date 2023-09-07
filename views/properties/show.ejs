@@ -1,5 +1,6 @@
 <% layout('./layouts/boilerplate') %>
 <div class="col-6 offset-3 my-3">   
+    <div id='map' style='width: 400px; height: 300px;'></div>
 
     <div class="d-flex justify-content-between align-items-center">
         <h1><%= property.address %></h1>
@@ -59,3 +60,9 @@
         </div>
     <% } %>
 </div>
+
+<!-- pass a property variable to maps.js -->
+<script>
+    const property = '<%-JSON.stringify(property)%>';
+</script>
+<script src="/maps.js"></script>
