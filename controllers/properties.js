@@ -2,6 +2,10 @@ const Property = require('../models/property');
 const { generateAvailableViewings } = require('../utils/generateDates');
 const User = require('../models/user');
 
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); 
+const mapBoxToken = "pk.eyJ1IjoibWF0dGlhZGlwcm9maW8xIiwiYSI6ImNsbG54ZXdjZjA1ZWwzZm1xYmM2YTlzd3EifQ.OXFg-nuVZkEHCXeCp5mqkw";
+const geoCoder = mbxGeocoding({ accessToken : mapBoxToken });
+
 module.exports.showAllListings = async (req, res) => {
     const allProperties = await Property.find({});
     res.render('properties/index', { allProperties, calledFromNavbar : true });
