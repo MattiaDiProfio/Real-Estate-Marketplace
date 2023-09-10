@@ -1,5 +1,5 @@
 <% layout('./layouts/boilerplate') %>
-    <h1 class="mt-5">All Properties</h1>
+    <h1 id="indexPageTitle" class="mt-4">All Properties</h1>
 
     <div class="ms-auto">
         <form action="/properties/search" method="POST" class="row row-cols-lg-auto g-3 align-items-center">
@@ -59,16 +59,25 @@
             </div>
         <% } %>
 
-        <% for(let property of allProperties) { %>
-            <div class="card mb-3 d-flex flex-row">
-                <img src="<%= property.image %>" class="card-img-top" style="width: 50%; height: 250px;" alt="property image">
-                <div class="card-body">
-                    <h5 class="card-title"><%= property.address %></h5>
-                    <p class="card-text"><%= property.rooms %></p>
-                    <p class="card-text">£<%= property.monthlyRent %></p>
-                    <p class="card-text"><%= property.description.substring(0,200) %>...</p>
-                    <a href="/properties/<%=property._id%>" class="btn btn-primary">More</a>
-                </div>
+        <% for(let i = 0; i < allProperties.length-4; i++) { %>
+            <div class="row">
+                <% for(let j = i; j < i + 4; j++) { %>
+                    <div class="col-12 col-md-6 col-lg-3 mb-4">
+                        <div class="card">
+                            <img src="<%= allProperties[j].image %>" class="card-img-top" alt="property image">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <h5 class="card-title m-1">£<%= allProperties[j].monthlyRent %> per month</h5>
+                                    <p class="card-text m-1"><%= allProperties[j].address %></>
+                                    <p class="card-text m-1"><%= allProperties[j].rooms %></p>
+                                </div>      
+                                <div class="card-link-container">
+                                    <a class="card-link m-1" href="/properties/<%=allProperties[j]._id%>">More</a>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                <% } %>
             </div>
         <% } %>
     <% } %>

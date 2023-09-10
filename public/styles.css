@@ -1,0 +1,94 @@
+body {
+    background-color: #F7F7F7;
+}
+
+/* ------------------------------------ navbar ---------------------------------------*/
+
+.navbar {
+    border: solid 0 black;
+    width: 90%;
+    border-radius: 10px;
+    margin: auto;
+    padding: 0.75rem 1rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: #F7F7F7;
+}
+
+#navbarSlogan {
+    color: white;
+}
+
+.nav-item, .card-link {
+    display: inline-block;
+    color: #DD4A48;
+    text-decoration: none;
+}
+
+.nav-item::after, .card-link::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px;
+    background: #DD4A48;
+    transition: width .5s;
+}
+
+.nav-item:hover::after, .card-link:hover::after {
+    width: 100%;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #DD4A48;
+}
+
+.navbar a:hover, .navbar-brand:hover, .card-link:hover {
+    color: #DD4A48;
+}
+
+/* ------------------------------------ index page ---------------------------------------*/
+#indexPageTitle { padding-top: 75px; }
+
+.card {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    min-height: 400px;
+}
+
+.card-link {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.card-link-container {
+    width: 50px;
+}
+
+/* ------------------------------------ login & signup form ---------------------------------------*/
+#loginFormContainer, #signupFormContainer {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#signupFormContainer {
+    margin-top: 1rem;
+}
+
+@media screen and (max-width: 672px) {
+    .nav-item{
+        width: 15%;
+    }
+
+    #signupFormContainer {
+        margin-top: 2rem;
+    }
+
+}
+
+/* ------------------------------------ dashboard ---------------------------------------*/
+#dashboardContainer {
+    margin-top: 150px;
+    height: 90vh;
+}

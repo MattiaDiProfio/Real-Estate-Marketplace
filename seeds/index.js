@@ -16,7 +16,7 @@ const seedDatabase = async() => {
     await Property.deleteMany({});
 
     //populate database with randomly generated properties
-    for(let i = 0; i < 100; i++) {
+    for(let i = 0; i < 20; i++) {
 
         // randomly generate property data
         let houseNumber = Math.floor(Math.random() * 99) + 1;
