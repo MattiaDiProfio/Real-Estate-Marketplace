@@ -2,7 +2,15 @@ body {
     background-color: #F7F7F7;
 }
 
+.flash {
+    margin-top: 100px;
+}
+
 /* ------------------------------------ navbar ---------------------------------------*/
+
+#filterFormContainer {
+    margin-top: 130px;
+}
 
 .navbar {
     border: solid 0 black;
@@ -12,24 +20,25 @@ body {
     padding: 0.75rem 1rem;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     background-color: #F7F7F7;
+    display: block;
 }
 
 #navbarSlogan {
     color: white;
 }
 
-.allListings-back-link {
+.allListings-back-link, .newListing-cancel-link, .listing-back-link {
     font-size: 1.3rem;
     font-weight: 500;
 }
 
-.nav-item, .card-link, .allListings-back-link {
+.nav-item, .card-link, .allListings-back-link, .newListing-cancel-link, .listing-back-link {
     display: inline-block;
     color: #DD4A48;
     text-decoration: none;
 }
 
-.nav-item::after, .card-link::after, .allListings-back-link::after {
+.nav-item::after, .card-link::after, .allListings-back-link::after, .newListing-cancel-link::after, .listing-back-link::after {
     content: '';
     display: block;
     width: 0;
@@ -38,7 +47,7 @@ body {
     transition: width .5s;
 }
 
-.nav-item:hover::after, .card-link:hover::after, .allListings-back-link:hover::after {
+.nav-item:hover::after, .card-link:hover::after, .allListings-back-link:hover::after, .newListing-cancel-link:hover::after, .listing-back-link:hover::after {
     width: 100%;
 }
 
@@ -78,7 +87,12 @@ body {
 }
 
 #signupFormContainer {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+.auth-redirect-form-link {
+    color: #DD4A48;
 }
 
 @media screen and (max-width: 672px) {
@@ -93,9 +107,13 @@ body {
 }
 
 /* ------------------------------------ dashboard ---------------------------------------*/
-#dashboardContainer, #individualListingContainer {
+#dashboardContainer, #individualListingContainer, #newListingFormContainer, #editFormContainer {
     margin-top: 125px;
-    height: 90vh;
+}
+
+.viewing-card, .listing-card {
+    min-height: 100px;
+    height: 150px;
 }
 
 /* ------------------------------------ listings pages ---------------------------------------*/

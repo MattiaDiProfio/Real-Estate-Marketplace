@@ -1,45 +1,51 @@
 <% layout('./layouts/boilerplate') %>
-
-<div class="col-6 offset-3">
-    <form class="needs-validation" action="/properties/<%=property._id%>/edit?_method=PUT" method="POST" novalidate>
-        <h1>Edit</h1>
-        <div class="my-3">
-            <a href="/properties/<%=property._id%>">back to <%=property.address%></a>
-        </div>
-        <img src="<%=property.image%>" class="w-100" style="height: 400px;" alt="property image">
-        <div class="my-3">
-            <!--  DIRECT USER TO EDIT PAGE FOR THE IMAGES GALLERY -->
-            <button class="btn btn-secondary">Edit Gallery</button>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="street">Street</label>
-            <input class="form-control" type="text" name="property[street]" id="street" value="<%=property.street%>" required>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Street cannot be empty</div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="city">City</label>
-            <input class="form-control" type="text" name="property[city]" id="city" value="<%=property.city%>" required>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">City cannot be empty</div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="numberRooms">Rooms</label>
-            <input class="form-control" type="number" name="property[numberRooms]" id="numberRooms" value="<%=property.numberRooms%>" required>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please specify a number of rooms</div>
-        <div class="mb-3">
-            <label class="form-label" for="rent">Rent</label>
-            <input class="form-control" type="number" name="property[monthlyRent]" id="rent" value="<%=property.monthlyRent%>" required>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please specify the monthly rent per room</div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="description">Description</label>
-            <textarea class="form-control" name="property[description]" id="description" cols="30" rows="5" required><%=property.description%></textarea>
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Description cannot be empty</div>
-        </div>
-        <button type="sumbit" class="btn btn-success">Edit</button>
-    </form>
+<div id="editFormContainer">
+    <div class="col-lg-6 col-12 offset-lg-3 offset-0">
+        <form class="needs-validation" action="/properties/<%=property._id%>/edit?_method=PUT" method="POST" novalidate>
+            <h1>Edit</h1>
+            <div class="my-3">
+                <a class="listing-back-link" href="/properties/<%=property._id%>">back to <%=property.address%></a>
+            </div>
+            <img src="<%=property.image%>" class="listing-image mb-3 w-100" alt="property image">
+            <div class="my-3">
+                <!--  DIRECT USER TO EDIT PAGE FOR THE IMAGES GALLERY -->
+                <button class="btn btn-secondary">Edit Gallery</button>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-lg-6 col-12">
+                    <label class="form-label" for="street">Street</label>
+                    <input class="form-control" type="text" name="property[street]" id="street" value="<%=property.street%>" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Street cannot be empty</div>
+                </div>
+                <div class="mb-3 col-lg-6 col-12">
+                    <label class="form-label" for="city">City</label>
+                    <input class="form-control" type="text" name="property[city]" id="city" value="<%=property.city%>" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">City cannot be empty</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-lg-6 col-12">
+                    <label class="form-label" for="numberRooms">Rooms</label>
+                    <input class="form-control" type="number" name="property[numberRooms]" id="numberRooms" value="<%=property.numberRooms%>" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please specify a number of rooms</div>
+                </div>
+                <div class="mb-3 col-lg-6 col-12">
+                    <label class="form-label" for="rent">Rent</label>
+                    <input class="form-control" type="number" name="property[monthlyRent]" id="rent" value="<%=property.monthlyRent%>" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please specify the monthly rent per room</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" name="property[description]" id="description" cols="30" rows="5" required><%=property.description%></textarea>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Description cannot be empty</div>
+            </div>
+            <button type="sumbit" class="btn btn-danger mb-5">Edit listing</button>
+        </form>
+    </div>
 </div>

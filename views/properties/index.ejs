@@ -1,48 +1,50 @@
 <% layout('./layouts/boilerplate') %>
-    <h1 id="indexPageTitle" class="mt-4">All Properties</h1>
 
-    <div class="ms-auto">
-        <form action="/properties/search" method="POST" class="row row-cols-lg-auto g-3 align-items-center">
-            <div class="mb-3 col-12">
-                <label for="city" class="form-label">City</label>
-                <input type="text" id="city" class="form-control" name="filterParams[city]">
-            </div>
-            <div class="col-12">
-                <label for="minRooms" class="form-label">Min Rooms</label>    
-                <select id="minRooms" class="form-select mb-3" name="filterParams[minRooms]">
-                    <option value="1" selected></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div class="col-12">
-                <label for="maxRooms" class="form-label">Max Rooms</label>
-                <select id="maxRooms" class="form-select mb-3" name="filterParams[maxRooms]">
-                    <option value="6" selected></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div class="col-12">
-                <label for="sortBy" class="form-label">Sort by</label>
-                <select id="sortBy" class="form-select mb-3" name="filterParams[order]">
-                    <option value="rentLowHigh" selected></option>
-                    <option value="roomsLowHigh">Rooms - low to high</option>
-                    <option value="roomsHighLow">Rooms - high to low</option>
-                    <option value="rentLowHigh">Rent - low to high</option>
-                    <option value="rentHighLow">Rent - high to low</option>
-                </select>
-            </div>
-            <div class="col-12"><button class="btn mt-3 btn-success">Search</button></div>
-        </form>
+    <div class="row mb-4" id="filterFormContainer">
+        <h1 id="indexPageTitle" class="pt-0 col-xl-4 col-12 d-flex justify-content-start align-items-center mb-4">All Properties</h1>
+        <div class="col-xl-8 col-12 w-70 d-flex justify-content-xl-end justify-content-start align-items-center">
+            <form action="/properties/search" method="POST" class="row row-cols-lg-auto g-3 align-items-center">
+                <div class="col-12">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" id="city" class="form-control" name="filterParams[city]">
+                </div>
+                <div class="col-12">  
+                    <label for="minRooms" class="form-label">Min Rooms</label>
+                    <select id="minRooms" class="form-select" name="filterParams[minRooms]">
+                        <option value="1" selected></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="maxRooms" class="form-label">Max rooms</label>
+                    <select id="maxRooms" class="form-select" name="filterParams[maxRooms]">
+                        <option value="6" selected></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="sortBy" class="form-label">Sort by</label>
+                    <select id="sortBy" class="form-select" name="filterParams[order]">
+                        <option value="rentLowHigh" selected></option>
+                        <option value="roomsLowHigh">Rooms - low to high</option>
+                        <option value="roomsHighLow">Rooms - high to low</option>
+                        <option value="rentLowHigh">Rent - low to high</option>
+                        <option value="rentHighLow">Rent - high to low</option>
+                    </select>
+                </div>
+                <div class="col-12"><button class="btn btn-danger mt-4">Search</button></div>
+            </form>
+        </div>
     </div>
     
     <% if (!allProperties.length) { %>
@@ -59,25 +61,24 @@
             </div>
         <% } %>
 
-        <% for(let i = 0; i < allProperties.length-4; i++) { %>
-            <div class="row">
-                <% for(let j = i; j < i + 4; j++) { %>
-                    <div class="col-12 col-md-6 col-lg-3 mb-4">
-                        <div class="card">
-                            <img src="<%= allProperties[j].image %>" class="card-img-top" alt="property image">
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <div>
-                                    <h5 class="card-title m-1">£<%= allProperties[j].monthlyRent %> per month</h5>
-                                    <p class="card-text m-1"><%= allProperties[j].address %></>
-                                    <p class="card-text m-1"><%= allProperties[j].rooms %></p>
-                                </div>      
-                                <div class="card-link-container">
-                                    <a class="card-link m-1" href="/properties/<%=allProperties[j]._id%>">More</a>
-                                </div>
+        <div class="row">
+            <% for(let j = 0; j < allProperties.length; j++) { %>
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="<%= allProperties[j].image %>" class="card-img-top" alt="property image">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title m-1">£<%= allProperties[j].monthlyRent %> per month</h5>
+                                <p class="card-text m-1"><%= allProperties[j].address %></>
+                                <p class="card-text m-1"><%= allProperties[j].rooms %></p>
+                            </div>      
+                            <div class="card-link-container">
+                                <a class="card-link m-1" href="/properties/<%=allProperties[j]._id%>">More</a>
                             </div>
-                        </div> 
-                    </div>
-                <% } %>
-            </div>
-        <% } %>
+                        </div>
+                    </div> 
+                </div>
+            <% } %>
+        </div>
+
     <% } %>
