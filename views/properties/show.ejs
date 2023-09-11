@@ -1,64 +1,79 @@
 <% layout('./layouts/boilerplate') %>
-<div class="col-6 offset-3 my-3">   
-    <div id='map' style='width: 400px; height: 300px;'></div>
-
-    <div class="d-flex justify-content-between align-items-center">
-        <h1><%= property.address %></h1>
-
+<div id="listingContainer">   
+    <div class="row">
+        <h1 class="col-lg-6 col-12"><%= property.address %></h1>
         <% if (currentUser && !(currentUser._id.equals(property.landlord._id))) { %>    
 
-            <form action="/properties/<%=property._id%>/toggleLike?userID=<%=currentUser._id%>&_method=PUT" method="POST">
-                <button id="propertyLikeBtn" style="border: none; background-color: white;">
+            <form class="col-lg-6 col-12 d-flex justify-content-lg-end justify-content-start my-lg-0 my-3 align-items-center" action="/properties/<%=property._id%>/toggleLike?userID=<%=currentUser._id%>&_method=PUT" method="POST">
+                <button id="propertyLikeBtn">
                     <% if (currentUser.likedListings.includes(property._id)) { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <svg class="listing-like-btn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                        </svg>
+                        </svg> 
                     <% } else { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                        <svg class="listing-like-btn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                             <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                        </svg>
+                        </svg> 
                     <% } %>
                 </button>
             </form>
         <% } %>
 
+        <!-- frontend condition to allow only listing author to modify listing -->
+        <% if (currentUser && property.landlord.equals(currentUser._id)) { %>
+                <div class="col-lg-6 col-12 d-flex justify-content-lg-end justify-content-start my-lg-0 my-3 align-items-center">
+                    <form action="/properties/<%=property._id%>/edit">
+                        <button class="btn btn-warning">Edit Listing</button>
+                    </form>
+                    <form action="/properties/<%=property._id%>?_method=DELETE" method="POST">
+                        <button class="ms-2 btn btn-danger">Delete Listing</button>
+                    </form>
+                </div>
+        <% } %>
+
+
+    </div>
+
+    <div class="text-start">
+        <span class="listing-numbers">£<%= property.monthlyRent %> per month, </span>
+        <span class="listing-numbers"><%= property.rooms %></span>
     </div>
 
     <div class="my-3">
-        <a href="/properties">All properties</a>
+        <a class="allListings-back-link" href="/properties">All properties</a>
     </div>
-    <img src="<%=property.image%>" class="w-100" style="height: 400px;" alt="property image">
 
-    <strong><p class="my-3">Listing uploaded by <%= property.landlord.username %></p></strong>
+    <div class="row my-3">
+        <div class="col-md-6 text-center col-12"><img class="listing-image mb-lg-0 mb-4 ms-lg-auto ms-0" src="<%=property.image%>" class="w-100" style="height: 300px;" alt="property image"></div>
+        <div class="col-md-6 col-12"><p><%= property.description %></p></div>
+    </div>
 
-    <p class="my-3"><%= property.description %><p>
-    <p class="display-6">£<%= property.monthlyRent %><p>
-    <p class="display-6"><%= property.rooms %><p>
+    <div class="row mt-5">
+        <div id='map' class="col-lg-6 col-12 mb-xl-0 mb-4 ms-xl-auto ms-0" style="width: 350px; height: 200px;"></div>
+        <div class="col-lg-6 col-12 ms-auto">
+            <% if (currentUser) { %>
+            <h5 class="display-3 mb-3" style="font-size: 1.5rem; font-weight: 400;">Interested? Book a viewing</h5>
+            <p>Select a suitable date and one of our agents will be in touch shortly</p>
+            <form action="/properties/<%=property._id%>/viewings?userID=<%=currentUser._id%>" method="POST">   
+                <div class="row">
+                    <div class="col-8">
+                        <select name="viewing[date]" class="mb-3 form-select">
+                            <option value="0" selected disabled>Choose a date</option>
+                            <% for(let date of property.availableViewings) { %>
+                                <option value="<%= date %>"><%= date %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-danger <%= property.landlord.equals(currentUser._id) ? 'disabled' : ''%>">Book</button>
+                    </div>
+                </div>
 
-    <% if (currentUser) { %>
-        <h5 class="display-6 mb-3">Interested? Book a viewing</h5>
-        <form action="/properties/<%=property._id%>/viewings?userID=<%=currentUser._id%>" method="POST">
-            <select name="viewing[date]" class="form-select mb-3">
-                <option value="0" selected disabled>Choose a date</option>
-                <% for(let date of property.availableViewings) { %>
-                    <option value="<%= date %>"><%= date %></option>
-                <% } %>
-            </select>
-            <button class="btn btn-success mb-3">Book</button>
-        </form>
-    <% } %>
-
-    <!-- frontend condition to allow only listing author to modify listing -->
-    <% if (currentUser && property.landlord.equals(currentUser._id)) { %>
-        <div class="d-flex">
-            <form action="/properties/<%=property._id%>/edit">
-                <button class="btn btn-warning">Edit</button>
             </form>
-            <form action="/properties/<%=property._id%>?_method=DELETE" method="POST">
-                <button class="ms-2 btn btn-danger">Delete</button>
-            </form>
+            <% } %>
         </div>
-    <% } %>
+    </div>
+
 </div>
 
 <!-- pass a property variable to maps.js -->

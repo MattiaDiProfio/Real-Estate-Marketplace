@@ -18,13 +18,18 @@ body {
     color: white;
 }
 
-.nav-item, .card-link {
+.allListings-back-link {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.nav-item, .card-link, .allListings-back-link {
     display: inline-block;
     color: #DD4A48;
     text-decoration: none;
 }
 
-.nav-item::after, .card-link::after {
+.nav-item::after, .card-link::after, .allListings-back-link::after {
     content: '';
     display: block;
     width: 0;
@@ -33,7 +38,7 @@ body {
     transition: width .5s;
 }
 
-.nav-item:hover::after, .card-link:hover::after {
+.nav-item:hover::after, .card-link:hover::after, .allListings-back-link:hover::after {
     width: 100%;
 }
 
@@ -88,7 +93,42 @@ body {
 }
 
 /* ------------------------------------ dashboard ---------------------------------------*/
-#dashboardContainer {
-    margin-top: 150px;
+#dashboardContainer, #individualListingContainer {
+    margin-top: 125px;
     height: 90vh;
+}
+
+/* ------------------------------------ listings pages ---------------------------------------*/
+
+.listing-image {
+    border-radius: 5px;
+    margin: auto;
+    max-width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+#map {
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+#listingContainer {
+    margin: 125px 100px 50px 100px;
+}
+
+.listing-like-btn, #propertyLikeBtn {
+    background-color: #F7F7F7;
+    border: none;
+    transition: all 0.3s ease;
+    height: 2rem;
+    width: 2rem;
+}
+
+.listing-like-btn:hover {
+    transform: scale(1.1);
+}
+
+.listing-numbers {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
 }
