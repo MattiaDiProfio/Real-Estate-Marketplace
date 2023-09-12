@@ -56,7 +56,7 @@ module.exports.serveEditForm = async (req, res) => {
 }
 
 module.exports.createListing = async (req, res) => {
-
+    
     const geoData = await geoCoder.forwardGeocode({
         query : `${req.body.city}`,
         limit : 1
@@ -66,11 +66,16 @@ module.exports.createListing = async (req, res) => {
     const newProperty = new Property(req.body.property);
     const landlord = await User.findById(userID);
     newProperty.landlord = userID;
+    newProperty.images = req.files.map(f => ({ url : f.path, filename : f.filename }));
     newProperty.geometry = geoData.body.features[0].geometry;
     newProperty.availableViewings = generateAvailableViewings();
     landlord.myListings.push(newProperty._id);
+
     await newProperty.save();
     await landlord.save();
+
+    console.log('IMAGES : ', newProperty.images)
+
     req.flash('success', 'Listing created successfully');
     res.redirect(`/properties/${newProperty._id}`);
     res.send('ok!');

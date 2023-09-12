@@ -12,7 +12,7 @@ router.route('/signup')
 
 router.route('/login')
     .get( usersController.serveLoginForm )
-    .post(storeReturnTo, passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}), usersController.loginUser ); 
+    .post(storeReturnTo, passport.authenticate('local', {failureFlash: true, failureRedirect: '/auth/signup'}), usersController.loginUser ); 
 
 router.get('/logout', usersController.logoutUser )
 

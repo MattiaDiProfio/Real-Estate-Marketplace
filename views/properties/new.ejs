@@ -1,6 +1,6 @@
 <% layout('./layouts/boilerplate') %>
 <div id="newListingFormContainer">
-    <form class="needs-validation col-6 offset-3 my-3" action="/properties" method="POST" novalidate>
+    <form class="needs-validation col-6 offset-3 my-3" action="/properties" method="POST" novalidate enctype="multipart/form-data">
         <h1>Add Property</h1>
         <div class="my-3">
             <a class="newListing-cancel-link" href="/auth/<%=currentUser._id%>/dashboard">Cancel</a>
@@ -26,11 +26,15 @@
                 <div class="valid-feedback">Looks good!</div>
                 <div class="invalid-feedback">Rooms must be a value between 1 and 6</div>
             </div>
-            <div class="mb-2 col-lg-6 col-12">
+            <!-- <div class="mb-2 col-lg-6 col-12">
                 <label class="form-label" for="image">Image URL</label>
                 <input class="form-control" type="text" name="property[image]" id="image" required>
                 <div class="valid-feedback">Looks good!</div>
                 <div class="invalid-feedback">Image URL cannot be empty</div>
+            </div> -->
+            <div class="mb-2 col-lg-6 col-12">
+                <label for="fileInput">Choose File</label>
+                <input type="file" name="image" id="fileInput" multiple>
             </div>
         </div>  
         <div class="row">

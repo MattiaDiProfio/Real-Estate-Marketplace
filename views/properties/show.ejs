@@ -44,7 +44,11 @@
     </div>
 
     <div class="row my-3">
-        <div class="col-md-6 text-center col-12"><img class="listing-image mb-lg-0 mb-4 ms-lg-auto ms-0" src="<%=property.image%>" class="w-100" style="height: 300px;" alt="property image"></div>
+        <div class="col-md-6 text-center col-12">
+            <% for(let image of property.images) { %>
+                <img class="listing-image mb-lg-0 mb-4 ms-lg-auto ms-0" src="<%=image.url%>" class="w-100" style="height: 300px;" alt="property image">
+            <% } %>
+        </div>
         <div class="col-md-6 col-12"><p><%= property.description %></p></div>
     </div>
 
@@ -65,7 +69,7 @@
                         </select>
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-danger <%= property.landlord.equals(currentUser._id) ? 'disabled' : ''%>">Book</button>
+                        <button class="btn btn-danger <%= ( property.landlord.equals(currentUser._id) ) ? 'disabled' : ''%>">Book</button>
                     </div>
                 </div>
 

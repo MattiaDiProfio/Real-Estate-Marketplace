@@ -22,7 +22,7 @@ module.exports.registerUser = async (req, res, next) => {
 
     } catch (e) {
         req.flash('error', e.message);
-        res.redirect('signup');
+        res.redirect('login');
     }
 }
 

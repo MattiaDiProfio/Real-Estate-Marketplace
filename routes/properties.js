@@ -6,10 +6,13 @@ const {validateProperty, isLoggedIn, isLandlord} = require('../middleware');
 const ExpressError = require('../utils/ExpressError');
 const propertiesController = require('../controllers/properties');
 
+const multer = require('multer');
+const { storage } = require('../cloudinary/index');
+const upload = multer({ storage });
 
 router.route('/')
     .get( catchAsyncError( propertiesController.showAllListings ))
-    .post( validateProperty, isLoggedIn, catchAsyncError( propertiesController.createListing ));
+    .post( upload.array('image'), validateProperty, isLoggedIn, catchAsyncError( propertiesController.createListing ));
 
 //serve the form to create new property
 router.get('/new', isLoggedIn, propertiesController.serveLoginForm )

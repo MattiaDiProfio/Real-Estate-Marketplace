@@ -22,7 +22,10 @@ const PropertySchema = new Schema({
         }
     },
     description : String,
-    image : String,
+    images : [{
+        url : String,
+        filename : String
+    }],
     monthlyRent : Number,
     numberRooms : Number,
     availableViewings : [String], 
