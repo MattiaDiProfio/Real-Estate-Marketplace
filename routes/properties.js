@@ -28,7 +28,7 @@ router.route('/:id')
 
 router.route('/:id/edit')
     .get( isLoggedIn, catchAsyncError( propertiesController.serveEditForm ))
-    .put( isLoggedIn, isLandlord, catchAsyncError( propertiesController.editListing ));
+    .put( isLoggedIn, isLandlord, upload.array('image'), catchAsyncError( propertiesController.editListing ));
 
 router.put('/:id/toggleLike', propertiesController.toggleLike );
 

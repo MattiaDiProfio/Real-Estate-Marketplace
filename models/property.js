@@ -7,6 +7,15 @@ const Viewing = require('./viewing');
 const User = require('./user');
 const { Schema } = mongoose;
 
+const ImageSchema = new Schema({
+    url : String,
+    filename : String
+})
+
+ImageSchema.virtual('thumbnail').get(function() {
+    return this.url.replace('/upload', '/upload/w_300,h_200');
+})
+
 const PropertySchema = new Schema({
     street : String,
     city : String,
@@ -22,10 +31,7 @@ const PropertySchema = new Schema({
         }
     },
     description : String,
-    images : [{
-        url : String,
-        filename : String
-    }],
+    images : [ImageSchema],
     monthlyRent : Number,
     numberRooms : Number,
     availableViewings : [String], 

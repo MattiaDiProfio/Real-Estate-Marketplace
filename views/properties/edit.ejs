@@ -1,16 +1,12 @@
 <% layout('./layouts/boilerplate') %>
 <div id="editFormContainer">
     <div class="col-lg-6 col-12 offset-lg-3 offset-0">
-        <form class="needs-validation" action="/properties/<%=property._id%>/edit?_method=PUT" method="POST" novalidate>
+        <form class="needs-validation" action="/properties/<%=property._id%>/edit?_method=PUT" method="POST" novalidate enctype="multipart/form-data">
             <h1>Edit</h1>
             <div class="my-3">
                 <a class="listing-back-link" href="/properties/<%=property._id%>">back to <%=property.address%></a>
             </div>
-            <img src="<%=property.image%>" class="listing-image mb-3 w-100" alt="property image">
-            <div class="my-3">
-                <!--  DIRECT USER TO EDIT PAGE FOR THE IMAGES GALLERY -->
-                <button class="btn btn-secondary">Edit Gallery</button>
-            </div>
+            <img src="<%=property.images[0].url%>" class="listing-image mb-3 w-100" alt="property image">
             <div class="row">
                 <div class="mb-3 col-lg-6 col-12">
                     <label class="form-label" for="street">Street</label>
@@ -38,6 +34,25 @@
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please specify the monthly rent per room</div>
                 </div>
+            </div>
+            <div class="mb-3">
+                <label for="imageUpload" class="form-label">Add images</label>
+                <input class="form-control" type="file" id="imageUpload" name="image">
+            </div>
+
+            <label class="form-label mb-2" for="">Delete images</label>
+            <div class="mb-3 row offset-1 offset-lg-0">
+                <% property.images.forEach((img, i) => { %>
+                    <div class="deleteImgContainer col-lg-6 col-12">
+                        <div class="deleteImgHeader">
+                            <label for="image-<%=i%>" class="mb-2">Select to remove </label>
+                            <div class="form-check-inline">
+                                <input type="checkbox" name="deleteImages[]" value="<%=img.filename%>"id="image-<%=i%>">
+                            </div>
+                        </div>
+                        <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
+                    </div>
+                <% }) %>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>

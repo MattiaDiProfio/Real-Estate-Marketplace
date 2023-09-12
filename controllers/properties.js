@@ -1,7 +1,7 @@
 const Property = require('../models/property');
 const { generateAvailableViewings } = require('../utils/generateDates');
 const User = require('../models/user');
-
+const { cloudinary } = require('../cloudinary');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); 
 const mapBoxToken = "pk.eyJ1IjoibWF0dGlhZGlwcm9maW8xIiwiYSI6ImNsbG54ZXdjZjA1ZWwzZm1xYmM2YTlzd3EifQ.OXFg-nuVZkEHCXeCp5mqkw";
 const geoCoder = mbxGeocoding({ accessToken : mapBoxToken });
@@ -84,6 +84,14 @@ module.exports.createListing = async (req, res) => {
 module.exports.editListing = async (req, res) => {
     const { id } = req.params;
     const prop = await Property.findByIdAndUpdate(id, { ...req.body.property }, { new : true });
+    const images = req.files.map(f => ({ url : f.path, filename : f.filename }))
+    prop.images.push(...images);
+
+    if (req.body.deleteImages) {
+        for(let filename of req.body.deleteImages) await cloudinary.uploader.destroy(filename);
+        await prop.updateOne({ $pull : { images : { filename : { $in : req.body.deleteImages } } } })
+    }
+
     await prop.save();
     req.flash('success', 'Listing updated successfully');
     res.redirect(`/properties/${prop._id}`)
