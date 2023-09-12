@@ -65,7 +65,7 @@
             <% for(let j = 0; j < allProperties.length; j++) { %>
                 <div class="col-12 col-md-6 col-lg-3 mb-4">
                     <div class="card">
-                        <img src="<%= allProperties[j].image %>" class="card-img-top" alt="property image">
+                        <img src="<%= allProperties[j].images[0].url %>" class="card-img-top" alt="property image">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
                                 <h5 class="card-title m-1">£<%= allProperties[j].monthlyRent %> per month</h5>
