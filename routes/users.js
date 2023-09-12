@@ -3,7 +3,7 @@ const User = require('../models/user');
 const router = express.Router();
 const catchAsyncError = require('../utils/catchAsyncError');
 const passport = require('passport');
-const { storeReturnTo } = require('../middleware');
+const { isLoggedIn, storeReturnTo } = require('../middleware');
 const usersController = require('../controllers/users');
 
 router.route('/signup')
@@ -16,7 +16,7 @@ router.route('/login')
 
 router.get('/logout', usersController.logoutUser )
 
-router.get('/:id/dashboard', usersController.showUserDashboard );
+router.get('/:id/dashboard', isLoggedIn, usersController.showUserDashboard );
 
 router.delete('/:id/delete', usersController.deleteAccount )
 

@@ -1,6 +1,15 @@
 <% layout('./layouts/boilerplate') %>
-    <div class="col-6 offset-3 alert alert-danger alert-dismissible fade show" role="alert">
-        <h4 class="alert-heading">Error</h4>
-        <p><%=err.message%></p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div style="margin-top: 150px; padding-bottom:0px;" class="col-lg-6 col-8 offset-lg-3 offset-2 alert alert-danger" role="alert">
+        <h4 class="alert-heading">Oh no! 404 Error</h4>
+        <p>Looks like the page you were looking for was not found. Please return to the home page by following <a href="/properties">this link</a></p>
+        <% if (err.message) { %>
+            <p class="d-inline-flex gap-1">
+                <a class="btn btn-danger" data-bs-toggle="collapse" href="#devErrorMessage" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Error details
+                </a>
+                <div class="collapse" id="devErrorMessage">
+                    <p><%=err.message%></p>
+                </div>
+            </p>
+        <% } %>
     </div>

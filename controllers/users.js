@@ -46,8 +46,11 @@ module.exports.showUserDashboard = async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id)
         .populate({path : 'myListings', populate : { path : 'viewings', populate : [{path : 'date'}, {path : 'requestedBy', populate : {path : 'username'}}, {path : 'property'}] }})
-        .populate({path : 'upcomingViewings', populate : { path : 'property' }})
+        .populate({path : 'upcomingViewings', populate : [{ path : 'property' }, { path : 'requestedBy'}]})
         .populate('likedListings');
+
+    console.log(user.upcomingViewings);
+
     res.render('users/dashboard', { user });
 };
 

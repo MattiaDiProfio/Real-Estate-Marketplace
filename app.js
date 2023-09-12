@@ -75,6 +75,7 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     let { statusCode } = err;
     if (!statusCode) statusCode = 500;
+    console.log(statusCode);
     res.status(statusCode).render('error', { err });
 });
 

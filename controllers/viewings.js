@@ -11,6 +11,7 @@ module.exports.placeViewing = async (req, res) => {
     //find the listing where the booking was requested from
     const property = await Property.findById(id);
     const user = await User.findById(userID).populate('upcomingViewings');
+    const landlord = await User.findById(property.landlord._id);
     const viewing = new Viewing();
     viewing.date = date;
     viewing.requestedBy = req.user._id;
@@ -19,7 +20,9 @@ module.exports.placeViewing = async (req, res) => {
     property.viewings.push(viewing);
     property.availableViewings.splice(property.availableViewings.indexOf(date), 1);
     user.upcomingViewings.push(viewing);
+    landlord.upcomingViewings.push(viewing);
 
+    await landlord.save();
     await viewing.save();
     await property.save();
     await user.save();
