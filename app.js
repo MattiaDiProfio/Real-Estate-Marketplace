@@ -17,9 +17,15 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+//const DBURL = process.env.DB_URL
+const localDBurl = 'mongodb://localhost:27017/PropertEase';
+
+const mongoSession = require('express-session');
+const MongoStore = require('connect-mongo');
+
 
 //set up connection to mongoDB
-mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true, useUnifiedTopology : true });
+mongoose.connect(localDBurl, { useNewUrlParser : true, useUnifiedTopology : true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error!'));
 db.once('open', () => console.log('database connected!'));
@@ -33,8 +39,22 @@ app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+const store = MongoStore.create({
+    mongoUrl: localDBurl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'dummy-secret'
+    }
+});
+
+store.on("error", function(e) {
+    console.log('error on session store setup', e);
+})
+
 app.use(session({ 
         secret : 'sessionSecret', 
+        name : 'propertease-session',
+        store : store,
         resave : false, 
         saveUninitialized : true, 
         cookie : {

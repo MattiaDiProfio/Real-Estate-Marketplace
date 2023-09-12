@@ -1,11 +1,18 @@
 const Property = require('../models/property');
-const { generateAvailableViewings } = require('../utils/generateDates');
 const User = require('../models/user');
+
+const { generateAvailableViewings } = require('../utils/generateDates');
 const { cloudinary } = require('../cloudinary');
+
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); 
 const mapBoxToken = "pk.eyJ1IjoibWF0dGlhZGlwcm9maW8xIiwiYSI6ImNsbG54ZXdjZjA1ZWwzZm1xYmM2YTlzd3EifQ.OXFg-nuVZkEHCXeCp5mqkw";
 const geoCoder = mbxGeocoding({ accessToken : mapBoxToken });
 
+/* 
+   render all property listings, if control variable 'calledFromNavbar' is true 
+   then what is being loaded into the ejs template are the listings which adhere to 
+   the search criterias imposed by the user
+*/
 module.exports.showAllListings = async (req, res) => {
     const allProperties = await Property.find({});
     res.render('properties/index', { allProperties, calledFromNavbar : true });
@@ -15,6 +22,7 @@ module.exports.serveLoginForm = (req, res) => res.render('properties/new');
 
 module.exports.serveSearchForm = (req, res) => res.render('properties/search')
 
+// retrieve all listings which satisfy user-imposed criteria
 module.exports.searchListings = async (req, res) => {
     let { city, minRooms, maxRooms, order } = req.body.filterParams;
     city = city ? city : { $gt : '' } // select all cities if an address is not given
@@ -57,6 +65,7 @@ module.exports.serveEditForm = async (req, res) => {
 
 module.exports.createListing = async (req, res) => {
     
+    //configure geo-JSON for the city associated with the listing
     const geoData = await geoCoder.forwardGeocode({
         query : `${req.body.city}`,
         limit : 1
@@ -74,11 +83,8 @@ module.exports.createListing = async (req, res) => {
     await newProperty.save();
     await landlord.save();
 
-    console.log('IMAGES : ', newProperty.images)
-
     req.flash('success', 'Listing created successfully');
     res.redirect(`/properties/${newProperty._id}`);
-    res.send('ok!');
 }
 
 module.exports.editListing = async (req, res) => {
@@ -87,6 +93,7 @@ module.exports.editListing = async (req, res) => {
     const images = req.files.map(f => ({ url : f.path, filename : f.filename }))
     prop.images.push(...images);
 
+    //delete all listing images which have been selected for removal through the 'edit' template
     if (req.body.deleteImages) {
         for(let filename of req.body.deleteImages) await cloudinary.uploader.destroy(filename);
         await prop.updateOne({ $pull : { images : { filename : { $in : req.body.deleteImages } } } })
