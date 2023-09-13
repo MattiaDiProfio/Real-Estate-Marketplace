@@ -17,8 +17,8 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-//const DBURL = process.env.DB_URL
-const localDBurl = 'mongodb://localhost:27017/PropertEase';
+const localDBurl = process.env.DB_URL || 'mongodb://localhost:27017/PropertEase';
+const secret = process.env.SECRET || 'dev-backup-secret';
 
 const mongoSession = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -42,9 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const store = MongoStore.create({
     mongoUrl: localDBurl,
     touchAfter: 24 * 60 * 60,
-    crypto: {
-        secret: 'dummy-secret'
-    }
+    crypto: { secret }
 });
 
 store.on("error", function(e) {
@@ -52,7 +50,7 @@ store.on("error", function(e) {
 })
 
 app.use(session({ 
-        secret : 'sessionSecret', 
+        secret,
         name : 'propertease-session',
         store : store,
         resave : false, 
