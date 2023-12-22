@@ -5,7 +5,7 @@ A minimalistic web app to help users find their (fictional) dream home.
 The motivation behind this project arised when I began looking for ways to familiarise myself with some common full-stack web 
 development practices which which fairly new to me, and I figured there was no better way to apply what I had been learning than to get my hands 
 dirty and tackle a project like the one presented in this repo.
-Anyone wishing to try out the application can do so here https://propertease-engq.onrender.com/properties and any feedback is much appreciated.
+Anyone wishing to try out the application can do so here [https://propertease-engq.onrender.com/properties](https://propertease-engq.onrender.com/) and any feedback is much appreciated.
 
 ## Usage 
 I tried to keep the design as intuitive as possible, hence once you follow the link above you should see a navbar at the top with the following links :
