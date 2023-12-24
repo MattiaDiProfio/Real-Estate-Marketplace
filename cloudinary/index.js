@@ -1,12 +1,10 @@
-/**
- * Set up connection to Clodinary, allowing us to 
-    - store property photos remotely
-    - edit and delete photos 
- */
-
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
+/**
+    Set-up connection to cloudinary
+    Allows for storage and management of property photos
+ */
 cloudinary.config({
     cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
     api_key : process.env.CLOUDINARY_KEY,
