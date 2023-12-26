@@ -34,7 +34,7 @@ module.exports.placeViewing = async (req, res) => {
 
     // Flash temporary pop-up message to screen to notify user of update
     req.flash('success', 'Viewing booked successfully');
-    res.redirect(`/properties/${property._id}`)
+    res.redirect(`/properties/${property._id}`);
 }
 
 // Remove property viewing appointment

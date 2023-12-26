@@ -4,10 +4,10 @@ const passport = require('passport');
 const Viewing = require('../models/viewing');
 
 // Render user signup form
-module.exports.serveSignupForm = (req, res) => res.render('users/signup')
+module.exports.serveSignupForm = (req, res) => res.render('users/signup');
 
 // Render user login form
-module.exports.serveLoginForm = (req, res) => res.render('users/login')
+module.exports.serveLoginForm = (req, res) => res.render('users/login');
 
 // Register new user with data from request payload/signup form
 module.exports.registerUser = async (req, res, next) => {
@@ -87,5 +87,5 @@ module.exports.deleteAccount = async(req, res) => {
 
     // Flash temporary pop-up message to screen to notify user of update
     req.flash('success', 'Your account was successfully deleted');
-    res.redirect('/properties')
+    res.redirect('/properties');
 }

@@ -22,27 +22,39 @@ module.exports.serveLoginForm = (req, res) => res.render('properties/new');
 // Render user signup form
 module.exports.serveSearchForm = (req, res) => res.render('properties/search')
 
-// Eetrieve all listings which satisfy user-imposed criteria
+// Retrieve all listings which satisfy user-imposed criteria
 module.exports.searchListings = async (req, res) => {
     let { city, minRooms, maxRooms, order } = req.body.filterParams;
-    city = city ? city : { $gt : '' } // select all cities if an address is not given
+    
+    // Select all cities if an address is not given
+    city = city ? city : { $gt : '' }
+
+    // Get range of bedrooms requested by the user
     minRooms = Math.min(minRooms, maxRooms);
     maxRooms = Math.max(minRooms, maxRooms);
+
+    // Filter out sorting condition picked by the user
     let sortingCondition;
     switch (order) {
         case 'rentLowHigh' :
+            // Results sorted by property rent low-to-high
             sortingCondition = { monthlyRent : 1 };
             break;
         case 'rentHighLow' :
+            // Results sorted by property rent high-to-low
             sortingCondition = { monthlyRent : -1 };
             break;
         case 'roomsLowHigh' :
+            // Results sorted by number of bedrooms low-to-high
             sortingCondition = { numberRooms : 1 };
             break;
         case 'roomsHighLow' :
+            // Results sorted by number of bedrooms high-to-low
             sortingCondition = { numberRooms : - 1};
             break;
     }
+
+    // Fetch all properties which meet the above criteria
     let allProperties = await Property.find({
         city : city,
         numberRooms : { $gte : Number(minRooms), $lte : Number(maxRooms) }
