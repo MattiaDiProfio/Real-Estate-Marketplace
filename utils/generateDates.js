@@ -1,6 +1,6 @@
-
 module.exports.generateAvailableViewings = () => {
 
+    // Generate a random date string in the format dd/mm/yyyy
     const getRandomDate = () => {
         const currentDate = new Date();
         const futureDate = new Date(currentDate);
@@ -11,7 +11,8 @@ module.exports.generateAvailableViewings = () => {
         const year = futureDate.getFullYear();
         return `${day}/${month}/${year}`;
     }
-
+    
+    // Generate 10 random dates to be set as a property's available viewing slots
     let randomUKDates = [];
     for (let i = 0; i < 10; i++) {
         const randomDate = getRandomDate();

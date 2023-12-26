@@ -1,3 +1,4 @@
+// Fake data points used to populate database
 module.exports = [
     {
         city: "New York",

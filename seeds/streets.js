@@ -1,3 +1,4 @@
+// Array of randomly generated street names
 module.exports = [
   "High Street",
   "Main Road",

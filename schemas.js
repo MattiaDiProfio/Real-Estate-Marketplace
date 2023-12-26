@@ -1,6 +1,7 @@
+// Use npm Joi for object validation
 const joi = require('joi');
 
-//define joi validation schema
+// Define joi validation schema
 module.exports.propertySchema = joi.object({
     property : joi.object({
         city : joi.string().required(),
