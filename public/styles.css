@@ -6,7 +6,7 @@ body {
     margin-top: 100px;
 }
 
-/* ------------------------------------ navbar ---------------------------------------*/
+/* ------------------------------------ Navbar styles ---------------------------------------*/
 
 #filterFormContainer {
     margin-top: 130px;
@@ -61,7 +61,7 @@ body {
     color: #DD4A48;
 }
 
-/* ------------------------------------ index page ---------------------------------------*/
+/* ------------------------------------ Index/home page styles ---------------------------------------*/
 #indexPageTitle { padding-top: 75px; }
 
 .card {
@@ -78,7 +78,7 @@ body {
     width: 50px;
 }
 
-/* ------------------------------------ login & signup form ---------------------------------------*/
+/* ------------------------------------ Login & signup form styles ---------------------------------------*/
 #loginFormContainer, #signupFormContainer {
     height: 90vh;
     display: flex;
@@ -106,7 +106,7 @@ body {
 
 }
 
-/* ------------------------------------ dashboard ---------------------------------------*/
+/* ------------------------------------ User/landlord dashboard styles ---------------------------------------*/
 #dashboardContainer, #individualListingContainer, #newListingFormContainer, #editFormContainer {
     margin-top: 125px;
 }
@@ -116,7 +116,7 @@ body {
     height: 150px;
 }
 
-/* ------------------------------------ listings pages ---------------------------------------*/
+/* ------------------------------------ Listings pages styles  ---------------------------------------*/
 
 .listing-image {
     border-radius: 5px;
