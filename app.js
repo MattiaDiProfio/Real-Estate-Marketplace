@@ -1,7 +1,5 @@
 // Configure environment for either production or deployment
-if (process.env.NODE_ENV !== "production") {
-    require('dotenv').config();
-}
+if (process.env.NODE_ENV !== "production") require('dotenv').config();
 
 // Import all required application packages & files
 const express = require('express');
@@ -17,7 +15,7 @@ const usersRoutes = require('./routes/users');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local'); // Hashing strategy used during authentication
 const User = require('./models/user');
 const localDBurl = 'mongodb://localhost:27017/PropertEase';
 const secret = process.env.SECRET || 'dev-backup-secret';

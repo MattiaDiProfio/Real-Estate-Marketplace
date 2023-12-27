@@ -1,12 +1,14 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const Property = require('../models/property')
 const streets = require('./streets');
 const cities  = require('./cities');
 const { generateAvailableViewings } = require('../utils/generateDates');
 const { rentPerRoom } = require('../utils/generateRent');
+const dburl = process.env.DB_URL
 
-// Set up local database connection
-mongoose.connect('mongodb://localhost:27017/PropertEase', { useNewUrlParser : true });
+// Set up database connection
+mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error!'));
 db.once('open', () => console.log('database connected!'));
@@ -46,12 +48,13 @@ const seedDatabase = async() => {
                 type : 'Point', 
                 coordinates : [city.longitude, city.latitude]
             },
-            // For now user { mattia : mattia } is the landlord of all seeded listings
-            landlord : "64f97c9cf917a0630f20fca1"
+            // Default user
+            landlord : "658caf2c3ff82fccd15cdf40"
         });
         
         await newProperty.save();
     }
 }
+
 // Close database connection once popolated successfully
 seedDatabase().then(() => mongoose.connection.close());
