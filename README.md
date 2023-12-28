@@ -16,4 +16,3 @@ I tried to keep the design as intuitive as possible, hence once you follow the l
 - if you registered as a **standard user** you will find your liked properties and you booked viewings on your dashboard, otherwise if you are a **landlord** you will see all the properties you previously listed as well
   as reminders of all viewings users have booked on any of your properties.
 - from your dashboard, you can logout or delete your account and cancel viewings. On top of that, landlords can also create a new listing, edit or delete previous ones as well.
-
