@@ -1,18 +1,46 @@
 # PropertEase
-A minimalistic web app to help users find their (fictional) dream home.
 
-## Overview 
-The motivation behind this project arised when I began looking for ways to familiarise myself with some common full-stack web 
-development practices which which fairly new to me, and I figured there was no better way to apply what I had been learning than to get my hands 
-dirty and tackle a project like the one presented in this repo.
-Anyone wishing to try out the application can do so here [https://propertease-engq.onrender.com/properties](https://propertease-engq.onrender.com/) and any feedback is much appreciated.
+PropertEase is a fictional real-estate web application where users looking for a property can explore and save liked properties, to then book viewing appointments and homeowners can advertise their property using the intuitive upload procedure. All users can then access and manager their properties, viewings and listings through a minimalistic dashboard.
 
-## Usage 
-I tried to keep the design as intuitive as possible, hence once you follow the link above you should see a navbar at the top with the following links :
-- **PropertEase** will direct you to the home page, where all the property listings uploaded will be displayed. You can also filter listings by applying search filters through
-  the form located on this page.
-- By following the **More** link on each listing card you can view a property's images gallery and book a viewing from the available dates, assuming you are logged in and not the authour of the listed home.
-- once you log-in or sign-up thorugh the navbar links, you will be able to reach your user dashboard by following the **Account** link.
-- if you registered as a **standard user** you will find your liked properties and you booked viewings on your dashboard, otherwise if you are a **landlord** you will see all the properties you previously listed as well
-  as reminders of all viewings users have booked on any of your properties.
-- from your dashboard, you can logout or delete your account and cancel viewings. On top of that, landlords can also create a new listing, edit or delete previous ones as well.
+### Setup
+
+Please follow these steps to setup a **local copy**
+
+1. To setup the application on you local machine, clone this repo and run the command `npm install` to acquire all the dependencies needed.
+
+2. Create a Cloudinary account and store the cloudname, key and secret as environment variables in a `.env` file.
+
+3. Setup a local instance of a MongoDB database and connect it to your app using the `localDBurl` variable, found in `app.js`.
+
+4. Run `node app.js` from your git bash terminal, and everything should be working properly. Your local copy should be live on `localhost`
+
+Alternitavely, you can explore the app following this [demo link](https://propertease-engq.onrender.com/properties). You can create an account of your own and explore the app as a homeseeker or homeowner.
+
+### Tech
+
+- The **User layer** for this project has been implemented using HTML5/CSS3 as well as BootstrapCSS and EJS for dynamic templating, however an implementation using ReactJS will be adopted in the future.
+
+- The **Business layer** has been developed using NodeJS, ExpressJS* and Mongoose.
+
+- The underlying **Database layer** for this application is MongoDB and the deployment has been carried out using Render.
+
+I have attached a table describing the name and purpose of each module used within the app.
+
+Module name | Purpose
+---|---
+`cloudinary` | connect app to clodinary web service to store property images
+`connect-flash` | flash feedback messages to users
+`connect-mongo` | setup connection to MongoDB database
+`dotenv` | allows for creation of .env file to store environment variables
+`ejs/ejs-mate` | allows for dynamic templating using ejs in an express app
+`express` | framework used to develop NodeJS apps
+`express-session` | allows for use of session and cookies
+`joi` | mongoose schema validation
+`mongoose` | allows for MongDB ODM and management of MongoDB collections
+`mapbox sdk` | allows for use of the mapbox api and its mapping features
+`method-override` | overrides default html form behaviour to send all request types via form submission
+`passport` | user authentication and authorization
+
+### Author note
+
+Feedback on the app is much apprieciated, so if you encounter any issues or bugs while navigating the website or have an idea for any sort of improvement, feel free to get in touch :) - Mattia.
